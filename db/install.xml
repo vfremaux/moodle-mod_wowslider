@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/mplayer/db" VERSION="20070401" COMMENT="XMLDB file for Moodle mod/mplayer"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="wowslider" COMMENT="Wrapper for wowslider presentation" NEXT="wowslider_slide">
+        <FIELDS>
+            <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" COMMENT="id" NEXT="course"/>
+            <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="course" PREVIOUS="id" NEXT="name"/>
+            <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="name" PREVIOUS="course" NEXT="intro"/>
+            <FIELD NAME="intro" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false" COMMENT="intro" PREVIOUS="name" NEXT="introformat"/>
+            <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="introformat" PREVIOUS="intro" NEXT="timecreated"/>
+            <FIELD NAME="timecreated" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="timecreated" PREVIOUS="introformat" NEXT="timemodified"/>
+            <FIELD NAME="timemodified" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="timemodified" PREVIOUS="timecreated" NEXT="width" />
+            <FIELD NAME="width" TYPE="char" LENGTH="8" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="slider panel height" PREVIOUS="timemodified" NEXT="height" />
+            <FIELD NAME="height" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="slider panel width" PREVIOUS="width" NEXT="effect" />
+            <FIELD NAME="effect" TYPE="char" LENGTH="32" NOTNULL="true" UNSIGNED="true" DEFAULT="none" SEQUENCE="false" COMMENT="slider effect" PREVIOUS="height" NEXT="skin" />
+            <FIELD NAME="skin" TYPE="char" LENGTH="32" NOTNULL="true" UNSIGNED="true" DEFAULT="none" SEQUENCE="false" COMMENT="slider skin" PREVIOUS="effect" />
+        </FIELDS>
+        <KEYS>
+            <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        </KEYS>
+        <INDEXES>
+            <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
+        </INDEXES>
+    </TABLE>
+    <TABLE NAME="wowslider_slide" COMMENT="Wrapper for wowslider presentation" PREVIOUS="wowslider">
+        <FIELDS>
+            <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" COMMENT="id" NEXT="wowsliderid"/>
+            <FIELD NAME="wowsliderid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="wowslider" PREVIOUS="id" NEXT="filename"/>
+            <FIELD NAME="filename" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="image name non editable" PREVIOUS="wowsliderid" NEXT="url"/>
+            <FIELD NAME="url" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="url to link" PREVIOUS="filename" NEXT="title"/>
+            <FIELD NAME="title" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="title" PREVIOUS="url" NEXT="tooltip"/>
+            <FIELD NAME="tooltip" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="tooltip" PREVIOUS="title" />
+        </FIELDS>
+        <KEYS>
+            <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        </KEYS>
+        <INDEXES>
+            <INDEX NAME="wowslider_ix" UNIQUE="false" FIELDS="wowsliderid"/>
+        </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>
