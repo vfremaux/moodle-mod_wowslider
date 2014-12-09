@@ -89,6 +89,12 @@ if (has_capability('mod/wowslider:edit', $context)) {
 
 echo $renderer->print_body($instance);
 
+if ($COURSE->format != 'singleactivity') {
+    echo '<center>';
+    echo $OUTPUT->single_button(new moodle_url('/course/view.php', array('id' => $course->id)), get_string('backtocourse', 'wowslider'));
+    echo '</center>';
+}
+
 // Finish the page.
 
 echo $OUTPUT->footer($course);

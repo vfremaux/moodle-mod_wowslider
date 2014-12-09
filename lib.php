@@ -57,15 +57,24 @@ function wowslider_supports($feature) {
 function wowslider_add_instance($wowslider) {
     global $DB;
 
+    if (!isset($wowslider->autoplay)) $wowslider->autoplay = 0;
+    if (!isset($wowslider->autoplayvideo)) $wowslider->autoplayvideo = 0;
+    if (!isset($wowslider->stoponhover)) $wowslider->stoponhover = 0;
+    if (!isset($wowslider->playloop)) $wowslider->playloop = 0;
+    if (!isset($wowslider->bullets)) $wowslider->bullets = 0;
+    if (!isset($wowslider->caption)) $wowslider->caption = 0;
+    if (!isset($wowslider->controls)) $wowslider->controls = 0;
+    if (!isset($wowslider->fullscreen)) $wowslider->fullscreen = 0;
+
     $wowslider->timemodified = time();
+
+    $wowslider->id = $return = $DB->insert_record('wowslider', $wowslider);
 
     // saves draft customization image files into definitive filearea
     $instancefiles = wowslider_get_fileareas();
     foreach ($instancefiles as $if) {
         wowslider_save_draft_file($wowslider, $if);
     }
-
-    $return = $DB->insert_record('wowslider', $wowslider);
 
     return $return;
 }
@@ -84,6 +93,15 @@ function wowslider_update_instance($wowslider) {
     // If changing mode, we need delete all previous user dataas they are NOT relevant any more.
     // @TODO : add notification in mod_form to alert users...
 
+    if (!isset($wowslider->autoplay)) $wowslider->autoplay = 0;
+    if (!isset($wowslider->autoplayvideo)) $wowslider->autoplayvideo = 0;
+    if (!isset($wowslider->stoponhover)) $wowslider->stoponhover = 0;
+    if (!isset($wowslider->playloop)) $wowslider->playloop = 0;
+    if (!isset($wowslider->bullets)) $wowslider->bullets = 0;
+    if (!isset($wowslider->caption)) $wowslider->caption = 0;
+    if (!isset($wowslider->controls)) $wowslider->controls = 0;
+    if (!isset($wowslider->fullscreen)) $wowslider->fullscreen = 0;
+
     $wowslider->timemodified = time();
     $wowslider->id = $wowslider->instance;
 
@@ -97,6 +115,7 @@ function wowslider_update_instance($wowslider) {
     }
 
     return $DB->update_record('wowslider', $wowslider);
+    die;
 }
 
 /**

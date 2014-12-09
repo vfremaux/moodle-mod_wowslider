@@ -1,13 +1,14 @@
 <?php
+require_once($CFG->dirroot.'/mod/wowslider/Mobile_Detect.php');
 
 class WowSlider {
-    
+
     var $cm;
 
     var $images;
-    
+
     var $wowsliderrec;
-    
+
     function __construct($instanceidorrec, $cm) {
         global $DB;
 
@@ -49,40 +50,60 @@ class WowSlider {
 
     function print_body() {
         global $CFG, $DB;
-    
+
         $i = 0;
         $images = '';
         $tooltips = '';
+        $tooltipsarr = '';
         foreach ($this->images as $img) {
-            $linkdata = $DB->get_record('wowslider_slide', array('filename' => $img->filename));
-            $tooltips[$i] = $linkdata->tooltip;
+            $linkdata = $DB->get_record('wowslider_slide', array('filename' => $img->filename, 'wowsliderid' => $this->wowsliderrec->id));
+            $tooltipsarr[$i] = @$linkdata->tooltip;
+            $tooltitles[$i] = @$linkdata->title;
             if (empty($linkdata->url)) {
                 $images .= '
-                    <li><img src="'.$img->url.'" alt="'.$linkdata->title.'" title="'.$linkdata->title.'" id="wows'.$this->wowsliderrec->id.'_'.$i.'"/></li>';
+                    <li><img src="'.$img->url.'" alt="'.@$linkdata->title.'" title="'.@$linkdata->title.'" id="wows'.$this->wowsliderrec->id.'_'.$i.'"/></li>';
             } else {
                 $images .= '
-                    <li><a href="'.$linkdata->url.'"><img src="'.$img->url.'" alt="'.$linkdata->title.'" title="'.$linkdata->title.'" id="wows'.$this->wowsliderrec->id.'_'.$i.'"/></a></li>';
+                    <li><a href="'.$linkdata->url.'"><img src="'.$img->url.'" alt="'.@$linkdata->title.'" title="'.@$linkdata->title.'" id="wows'.$this->wowsliderrec->id.'_'.$i.'"/></a></li>';
             }
             $i++;
         }
 
         $i = 0;
         foreach ($this->tooltips as $img) {
-            $tooltips .= '<a href="#" title="'.$linkdata->title.'"><img src="'.$img->url.'" alt="'.$tooltips[$i].'"/>'.($i + 1).'</a>';
+            $tooltips .= '<a href="#" title="'.$tooltitles[$i].'"><img src="'.$img->url.'" alt="'.$tooltipsarr[$i].'"/>'.($i + 1).'</a>';
             $i++;
         }
 
+        $detector = new Mobile_Detect();
+
         $slider_body = '<!-- Start WOWSlider.com BODY section -->';
         $width = (is_numeric($this->wowsliderrec->width)) ? $this->wowsliderrec->width.'px' : $this->wowsliderrec->width ;
-        $slider_body .= '<div id="wowslider-container'.$this->wowsliderrec->id.'" style="width:'.$width.'">
-        <div class="ws_images" style="max-height:'.$this->wowsliderrec->height.'px"><ul>
-        '.$images.'
-        </ul></div>
+
+        // At the moment only one slider instance per page...
+
+        if ($detector->isMobile()) {
+            $slider_body .= '<div id="wow-wrapper" style="width:100%;margin:auto">';
+            $slider_body .= '<div id="wowslider-container1" style="width:100%">';
+        } else {
+            $slider_body .= '<div id="wow-wrapper" style="width:'.$width.';margin:auto">';
+            $slider_body .= '<div id="wowslider-container1">';
+        }
+        if (!$detector->isMobile()) {
+            $slider_body .= '<div class="ws_images" style="height:'.$this->wowsliderrec->height.'px"><ul>';
+        } else {
+            $slider_body .= '<div class="ws_images"><ul>';
+        }
+        // $slider_body .= '<div class="ws_images"><ul>
+        $slider_body .= $images;
+        $slider_body .= '</ul></div>
         <div class="ws_bullets"><div>
         '.$tooltips.'
         </div></div>
         <div class="ws_shadow"></div>
         </div>';
+
+        $slider_body .= '</div>';
 
         $slider_body .= '<!-- End WOWSlider.com BODY section -->';
 
@@ -97,9 +118,10 @@ class WowSlider {
         global $PAGE;
 
         $scriptpath = (empty($this->wowsliderrec->effect)) ? 'basic' : $this->wowsliderrec->effect;
-    
+
         $PAGE->requires->js('/mod/wowslider/js/'.$scriptpath.'/wowslider.js', false);
         $PAGE->requires->js('/mod/wowslider/js/'.$scriptpath.'/script.js', false);
+        $PAGE->requires->js('/mod/wowslider/js/script.php?wid='.$this->wowsliderrec->id, false);
     }
 
     /**
@@ -144,30 +166,31 @@ function wowslider_save_draft_file(&$wowslider, $filearea) {
         $fs = get_file_storage();
     }
 
-    if ($filearea == 'wowslides') {
+    if ($filearea == 'wowslides' || $filearea == 'tooltips') {
         if (!$fs->is_area_empty($usercontext->id, 'user', 'draft', $filepickeritemid, true)){
             $filearea = str_replace('fileid', '', $filearea);
             file_save_draft_area_files($filepickeritemid, $context->id, 'mod_wowslider', $filearea, 0);
             if ($savedfiles = $fs->get_area_files($context->id, 'mod_wowslider', $filearea, 0)) {
                 // Prepare and update metadata records
-                $mtdrecords = $DB->get_records('wowslider_slide', array('wowsliderid' => $wowslider->id), 'filename', 'filename,id,url,title,tooltip');
-                foreach ($savedfiles as $afile) {
-                    $filename= $afile->get_filename();
-                    if ($afile->is_directory()) continue;
-                    if (!$DB->record_exists('wowslider_slide', array('wowsliderid' => $wowslider->id, 'filename' => $filename))) {
-                        $mtdrec = new StdClass();
-                        $mtdrec->wowsliderid = $wowslider->id;
-                        $mtdrec->filename = $filename;
-                        $DB->insert_record('wowslider_slide', $mtdrec);
-                    } else {
-                        // just unmark it
-                        unset($mtdrecords[$filename]);
+                if ($filearea == 'wowslides') {
+                    $mtdrecords = $DB->get_records('wowslider_slide', array('wowsliderid' => $wowslider->id), 'filename', 'filename,id,url,title,tooltip');
+                    foreach ($savedfiles as $afile) {
+                        $filename= $afile->get_filename();
+                        if ($afile->is_directory()) continue;
+                        if (!$DB->record_exists('wowslider_slide', array('wowsliderid' => $wowslider->id, 'filename' => $filename))) {
+                            $mtdrec = new StdClass();
+                            $mtdrec->wowsliderid = $wowslider->id;
+                            $mtdrec->filename = $filename;
+                            $DB->insert_record('wowslider_slide', $mtdrec);
+                        } else {
+                            // just unmark it
+                            unset($mtdrecords[$filename]);
+                        }
                     }
-                }
-
-                // Remove yet marked existing records.
-                foreach ($mtdrecords as $filename => $rec) {
-                    $DB->delete_records('wowslider_slide', array('id' => $rec->id));
+                    // Remove yet marked existing records.
+                    foreach ($mtdrecords as $filename => $rec) {
+                        $DB->delete_records('wowslider_slide', array('id' => $rec->id));
+                    }
                 }
             }
         }

@@ -19,7 +19,6 @@
 /*playpause*/
 #wowslider-container1 .ws_playpause {
     width: 18px;
-    height: 28px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -45,11 +44,12 @@
     height: 16px;
     position: absolute;
     top: 20px;
-    left: 15px;
+    right: 4px;
     margin-left: -9px;
     margin-top: -14px;
     z-index: 59;
     background-image: url(./fullscreen.png);
+    background-size: 16px 16px;
 }
 
 div#ws_fullscreen:-moz-full-screen #wowslider-container1 {

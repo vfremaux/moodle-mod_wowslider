@@ -25,7 +25,7 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$plugin->version  = 2014112600;  // The current module version (Date: YYYYMMDDXX)
+$plugin->version  = 2014112800;  // The current module version (Date: YYYYMMDDXX)
 $plugin->release = "Moodle 2.6.0 (Build 2014081100)";
 $plugin->requires = 2012120300;
 $plugin->component = 'mod_wowslider';

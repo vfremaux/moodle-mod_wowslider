@@ -10,6 +10,7 @@ class restore_wowslider_activity_structure_step extends restore_activity_structu
 
         $paths = array();
         $paths[] = new restore_path_element('wowslider', '/activity/wowslider');
+        $paths[] = new restore_path_element('slide', '/activity/wowslider/slides/slide');
 
         if ($this->get_setting_value('userinfo')) {
         }
@@ -31,5 +32,18 @@ class restore_wowslider_activity_structure_step extends restore_activity_structu
         $newid = $DB->insert_record('wowslider', $data);
         $this->apply_activity_instance($newid);
         $this->set_mapping('wowslider', $oldid, $newid, true);
+    }
+
+    protected function process_slide($data) {
+        global $DB;
+
+        $data = (object)$data;
+
+        $oldid = $data->id;
+        unset($data->id);
+
+        $data->wowsliderid = $this->get_mappingid('wowslider', $data->wowsliderid);
+
+        $newid = $DB->insert_record('wowslider_slide', $data);
     }
 }

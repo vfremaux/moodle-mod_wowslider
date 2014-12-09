@@ -1,0 +1,26 @@
+WowSlider integrates the static html wowslider technology, using the 
+wowslider generator to build the code template and further integrating dynamically
+the distinct effects and skins several generations can provide.
+
+things are not truely satisfactory at the moment :
+
+1. Fullscreen rendering is not working nicely
+
+2. Thumbnails need to be produced separately. there should be some convenient
+way to produce automatically using GD or ImageMagic (what natively available in moodle
+core for it) adequate thumbs using slide images
+
+3. Behaviour must be checked on mobiles and tablet, with potential side adjustement.
+
+4. slides can handle video. this needs to be checked and verifying the size control of slideshare
+is working.
+
+5. dimension control is not fully accurate.
+
+6. Backup/restore should be properly handled and tested
+
+7. Some completion rules should be added to match : 
+- The slide show has been seen (whatever slide)
+- All slides have been viewed
+
+8. M27 version should be build, rebuilding logging code with events

@@ -60,6 +60,7 @@ class mod_wowslider_mod_form extends moodleform_mod {
             'glassparallax' => get_string('glassparallax', 'wowslider'),
             'cube' => get_string('cube', 'wowslider'),
             'blur' => get_string('blur', 'wowslider'),
+            'rotate' => get_string('rotate', 'wowslider'),
         );
         $mform->addElement('select', 'effect', get_string('effect', 'wowslider'), $effectoptions);
 
@@ -68,8 +69,41 @@ class mod_wowslider_mod_form extends moodleform_mod {
             'glass' => get_string('glass', 'wowslider'),
             'transparent' => get_string('transparent', 'wowslider'),
             'gentle' => get_string('gentle', 'wowslider'),
+            'twist' => get_string('twist', 'wowslider'),
         );
         $mform->addElement('select', 'skin', get_string('skin', 'wowslider'), $skinoptions);
+
+        $mform->addElement('header', 'h1', get_string('behaviour', 'wowslider'));
+
+        $mform->addElement('text', 'slideduration', get_string('duration', 'wowslider'), 20, array('size' => 3));
+        $mform->setType('slideduration', PARAM_INT);
+
+        $mform->addElement('text', 'delay', get_string('delay', 'wowslider'), 20, array('size' => 3));
+        $mform->setType('delay', PARAM_INT);
+
+        $mform->addElement('checkbox', 'autoplay', get_string('autoplay', 'wowslider'));
+        $mform->setType('autoplay', PARAM_INT);
+
+        $mform->addElement('checkbox', 'autoplayvideo', get_string('autoplayvideo', 'wowslider'));
+        $mform->setType('autoplayvideo', PARAM_INT);
+
+        $mform->addElement('checkbox', 'stoponhover', get_string('stoponhover', 'wowslider'));
+        $mform->setType('stoponhover', PARAM_INT);
+
+        $mform->addElement('checkbox', 'loop', get_string('loop', 'wowslider'));
+        $mform->setType('loop', PARAM_INT);
+
+        $mform->addElement('checkbox', 'bullets', get_string('bullets', 'wowslider'));
+        $mform->setType('bullets', PARAM_INT);
+
+        $mform->addElement('checkbox', 'caption', get_string('caption', 'wowslider'));
+        $mform->setType('caption', PARAM_INT);
+
+        $mform->addElement('checkbox', 'controls', get_string('controls', 'wowslider'));
+        $mform->setType('controls', PARAM_INT);
+
+        $mform->addElement('checkbox', 'fullscreen', get_string('fullscreen', 'wowslider'));
+        $mform->setType('fullscreen', PARAM_INT);
 
         $this->standard_coursemodule_elements();
         $this->add_action_buttons();

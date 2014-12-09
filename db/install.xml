@@ -16,7 +16,17 @@
             <FIELD NAME="width" TYPE="char" LENGTH="8" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="slider panel height" PREVIOUS="timemodified" NEXT="height" />
             <FIELD NAME="height" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="slider panel width" PREVIOUS="width" NEXT="effect" />
             <FIELD NAME="effect" TYPE="char" LENGTH="32" NOTNULL="true" UNSIGNED="true" DEFAULT="none" SEQUENCE="false" COMMENT="slider effect" PREVIOUS="height" NEXT="skin" />
-            <FIELD NAME="skin" TYPE="char" LENGTH="32" NOTNULL="true" UNSIGNED="true" DEFAULT="none" SEQUENCE="false" COMMENT="slider skin" PREVIOUS="effect" />
+            <FIELD NAME="skin" TYPE="char" LENGTH="32" NOTNULL="true" UNSIGNED="true" DEFAULT="none" SEQUENCE="false" COMMENT="slider skin" PREVIOUS="effect" NEXT="slideduration" />
+            <FIELD NAME="slideduration" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="20" SEQUENCE="false" COMMENT="slider skin" PREVIOUS="skin" NEXT="delay" />
+            <FIELD NAME="delay" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="20" SEQUENCE="false" COMMENT="slider skin" PREVIOUS="slideduration" NEXT="autoplay" />
+            <FIELD NAME="autoplay" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="autoplay" PREVIOUS="delay" NEXT="autoplayvideo" />
+            <FIELD NAME="autoplayvideo" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="autoplayembedded vids" PREVIOUS="autoplay" NEXT="stoponhover" />
+            <FIELD NAME="stoponhover" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="stop on hover" PREVIOUS="autoplayvideo" NEXT="playloop" />
+            <FIELD NAME="playloop" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="loop" PREVIOUS="stoponhover" NEXT="bullets" />
+            <FIELD NAME="bullets" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="show captions" PREVIOUS="playloop" NEXT="caption" />
+            <FIELD NAME="caption" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="show captions" PREVIOUS="bullets" NEXT="controls" />
+            <FIELD NAME="controls" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="show controls" PREVIOUS="caption" NEXT="fullscreen" />
+            <FIELD NAME="fullscreen" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="show fulscreen" PREVIOUS="controls" />
         </FIELDS>
         <KEYS>
             <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

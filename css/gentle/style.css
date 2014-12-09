@@ -82,6 +82,10 @@
 	z-index: -1;
 }
 
+#wowslider-container1 .ws_images iframe {
+    display:none;
+}
+
 #wowslider-container1 .ws_controls {
 	position: absolute;
 	top: 0;
