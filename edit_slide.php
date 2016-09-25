@@ -17,12 +17,12 @@
 /**
  * This page prints a particular instance of wowslider
  *
- * @author Valery Fremaux (valery.fremaux@gmail.com)
+ * @author Matt Bury - matbury@gmail.com
+ * @version $Id: view.php,v 1.1 2010/01/15 matbury Exp $
  * @licence http://www.gnu.org/copyleft/gpl.html GNU Public Licence
- * @package mod_wowslider
- * @category mod
+ * @package wowslider
  */
-require('../../config.php');
+require_once('../../config.php');
 require_once($CFG->dirroot.'/mod/wowslider/lib.php');
 require_once($CFG->dirroot.'/mod/wowslider/locallib.php');
 require_once($CFG->dirroot.'/mod/wowslider/slide_form.php');
@@ -55,8 +55,6 @@ $url = new moodle_url('/mod/wowslider/edit_slide.php', array('id' => $cm->id));
 $context = context_module::instance($cm->id);
 
 $PAGE->set_url($url);
-
-// Security. 
 
 require_login($course, true, $cm);
 require_capability('mod/wowslider:edit', $context);

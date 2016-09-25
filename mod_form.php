@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * This view allows checking deck states
  *
  * @package mod_wowslider
  * @category mod
  * @author Valery Fremaux
+ * @contributors Etienne Roze
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  */
+
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
 
 /**

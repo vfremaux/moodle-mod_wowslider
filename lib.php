@@ -14,16 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Library of functions and constants for module wowslider
  *
- * @author Valery Fremaux (valery.fremaux@gmail.com)
+ * @author 
  * @package mod_wowslider
  * @category mod
- * @licence http://www.gnu.org/copyleft/gpl.html GNU Public Licence
- */
+ **/
 require_once($CFG->dirroot.'/mod/wowslider/locallib.php');
 
 /**
@@ -33,7 +30,7 @@ require_once($CFG->dirroot.'/mod/wowslider/locallib.php');
  */
 function wowslider_supports($feature) {
     switch($feature) {
-        case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_RESOURCE;
+        case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_OTHER;
         case FEATURE_GROUPS:                  return false;
         case FEATURE_GROUPINGS:               return false;
         case FEATURE_GROUPMEMBERSONLY:        return false;
@@ -43,6 +40,7 @@ function wowslider_supports($feature) {
         case FEATURE_GRADE_OUTCOMES:          return false;
         case FEATURE_BACKUP_MOODLE2:          return true;
         case FEATURE_SHOW_DESCRIPTION:        return true;
+        case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_RESOURCE;
 
         default: return null;
     }
