@@ -28,7 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
-    $maxfilesopts = array('-1'=> get_string('unlimited', 'wowslider'),
+    $maxfilesopts = array('-1' => get_string('unlimited', 'wowslider'),
                           '10' => '10 '.get_string('slides', 'wowslider'),
                           '50' => '50 '.get_string('slides', 'wowslider'),
                           '100' => '100 '.get_string('slides', 'wowslider'),

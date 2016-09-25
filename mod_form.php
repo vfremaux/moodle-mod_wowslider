@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * This view allows checking deck states
  *
  * @package mod_wowslider
  * @category mod
  * @author Valery Fremaux
- * @contributors Etienne Roze
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  */
-
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
 
 /**
@@ -34,26 +34,25 @@ class mod_wowslider_mod_form extends moodleform_mod {
     public function definition() {
         global $CFG, $COURSE;
 
-        $config = get_config('wowslider');
-
-        if (empty($config->maxallowedfiles)) {
-            set_config('maxallowedfiles', 100, 'wowslider');
-        }
-
         $mform    =& $this->_form;
 
         $mform->addElement('header', 'general', get_string('general', 'form'));
         $mform->addElement('text', 'name', get_string('name'), array('size'=>'64'));
-        $mform->setType('name', PARAM_CLEANHTML);
+        if (!empty($CFG->formatstringstriptags)) {
+            $mform->setType('name', PARAM_TEXT);
+        } else {
+            $mform->setType('name', PARAM_CLEANHTML);
+        }
         $mform->addRule('name', null, 'required', null, 'client');
+        $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
 
-        $this->add_intro_editor(true, get_string('intro', 'wowslider'));
+        $this->standard_intro_elements();
 
         // mplayerfile
-        $mform->addElement('filemanager', 'wowslides', get_string('wowslides', 'wowslider'), null, array('courseid' => $COURSE->id, 'maxfiles' => $config->maxallowedfiles));
+        $mform->addElement('filemanager', 'wowslides', get_string('wowslides', 'wowslider'), null, array('courseid' => $COURSE->id, 'maxfiles' => 30));
         $mform->addRule('wowslides', get_string('required'), 'required', null, 'client');
 
-        $mform->addElement('filemanager', 'tooltips', get_string('tooltips', 'wowslider'), null, array('courseid' => $COURSE->id, 'maxfiles' => $config->maxallowedfiles));
+        $mform->addElement('filemanager', 'tooltips', get_string('tooltips', 'wowslider'), null, array('courseid' => $COURSE->id, 'maxfiles' => 30));
 
         $mform->addElement('text', 'width', get_string('width', 'wowslider'));
         $mform->addRule('width', get_string('required'), 'required', null, 'client');
