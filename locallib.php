@@ -225,9 +225,8 @@ class WowSlider {
 
         if ($this->wowsliderrec->notificationslide) {
             $PAGE->requires->js('/mod/wowslider/js/attrchange.js', false);
-            $context = context_module::instance($this->cm->id);
-            if (isloggedin() && !is_guest($context)) {
-                $PAGE->requires->js('/mod/wowslider/js/attrchangecallback.php', false);
+            if (isloggedin() && !is_guest($PAGE->context)) {
+                $PAGE->requires->js('/mod/wowslider/js/attrchangecallback.js', false);
             }
         }
 

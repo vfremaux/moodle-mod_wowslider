@@ -17,10 +17,10 @@
 /**
  * This page prints a particular instance of wowslider
  *
- * @author Matt Bury - matbury@gmail.com
- * @version $Id: view.php,v 1.1 2010/01/15 matbury Exp $
+ * @author Valery Fremaux (valery.fremaux@gmail.com)
  * @licence http://www.gnu.org/copyleft/gpl.html GNU Public Licence
- * @package wowslider
+ * @package mod_wowslider
+ * @category mod
  */
 require_once('../../config.php');
 require_once($CFG->dirroot.'/mod/wowslider/lib.php');

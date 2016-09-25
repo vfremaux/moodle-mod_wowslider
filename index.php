@@ -19,6 +19,7 @@
  *
  * @author Valery Fremaux (valery.fremaux@gmail.com)
  * @package mod_wowslider
+ * @licence http://www.gnu.org/copyleft/gpl.html GNU Public Licence
  * @category mod
  */
 require('../../config.php');
@@ -29,6 +30,8 @@ $id = required_param('id', PARAM_INT);   // Course ID.
 if (! $course = $DB->get_record('course', array('id' => $id))) {
     print_error('coursemisconf');
 }
+
+// Security.
 
 require_login($course->id);
 

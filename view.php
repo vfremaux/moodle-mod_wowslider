@@ -19,7 +19,7 @@
  *
  * @author Valery Fremaux (valery.fremaux@gmail.com)
  * @licence http://www.gnu.org/copyleft/gpl.html GNU Public Licence
- * @package wowslider
+ * @package mod_wowslider
  * @category mod
  */
 require('../../config.php');
@@ -58,6 +58,8 @@ $instance = new WowSlider($wowslider, $cm);
 
 $instance->require_js();
 $instance->require_css();
+
+// Security.
 
 require_login($course->id);
 
