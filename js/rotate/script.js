@@ -28,4 +28,4 @@ function ws_rotate(j,i,a){var d=jQuery;var h=d(this);var e=d(".ws_list",a);var b
 // Obfuscated by Javascript Obfuscator
 // http://javascript-source.com
 //***********************************************
-// jQuery("#wowslider-container1").wowSlider({effect:"rotate",prev:"",next:"",duration:20*100,delay:20*100,width:830,height:360,autoPlay:true,autoPlayVideo:false,playPause:true,stopOnHover:false,loop:false,bullets:1,caption:true,captionEffect:"parallax",controls:true,responsive:1,fullScreen:false,gestures:2,onBeforeStep:0,images:0});
+// jQuery("#wowslider-container").wowSlider({effect:"rotate",prev:"",next:"",duration:20*100,delay:20*100,width:830,height:360,autoPlay:true,autoPlayVideo:false,playPause:true,stopOnHover:false,loop:false,bullets:1,caption:true,captionEffect:"parallax",controls:true,responsive:1,fullScreen:false,gestures:2,onBeforeStep:0,images:0});

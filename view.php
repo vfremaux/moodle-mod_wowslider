@@ -17,12 +17,12 @@
 /**
  * This page prints a particular instance of wowslider
  *
- * @author Matt Bury - matbury@gmail.com
- * @version $Id: view.php,v 1.1 2010/01/15 matbury Exp $
+ * @author Valery Fremaux (valery.fremaux@gmail.com)
  * @licence http://www.gnu.org/copyleft/gpl.html GNU Public Licence
- * @package wowslider
+ * @package mod_wowslider
+ * @category mod
  */
-require_once('../../config.php');
+require('../../config.php');
 require_once($CFG->dirroot.'/mod/wowslider/lib.php');
 require_once($CFG->dirroot.'/mod/wowslider/locallib.php');
 
@@ -59,11 +59,22 @@ $instance = new WowSlider($wowslider, $cm);
 $instance->require_js();
 $instance->require_css();
 
+// Security.
+
 require_login($course->id);
 
-// Add view to Moodle log.
-
-add_to_log($course->id, 'wowslider', 'view', "view.php?id=$cm->id", "$wowslider->name", $cm->id);
+// Trigger module viewed event.
+$event = \mod_wowslider\event\wowslider_viewed::create(array(
+    'objectid' => $cm->id,
+    'context' => $context,
+    'other' => array(
+        'objectname' => $wowslider->name
+    )
+));
+$event->add_record_snapshot('course_modules', $cm);
+$event->add_record_snapshot('course', $course);
+$event->add_record_snapshot('wowslider', $wowslider);
+$event->trigger();
 
 // Print the page header.
 
@@ -75,6 +86,9 @@ $PAGE->navbar->add(get_string('modulename', 'wowslider').': '.$wowslider->name);
 $PAGE->set_focuscontrol('');
 $PAGE->set_cacheable(true);
 $PAGE->set_button(update_module_button($cm->id, $course->id, $strwowslider));
+
+$completion = new completion_info($course);
+$completion->set_module_viewed($cm);
 
 echo $OUTPUT->header();
 
@@ -89,10 +103,15 @@ if (has_capability('mod/wowslider:edit', $context)) {
 
 echo $renderer->print_body($instance);
 
-if ($COURSE->format != 'singleactivity') {
-    echo '<center>';
-    echo $OUTPUT->single_button(new moodle_url('/course/view.php', array('id' => $course->id)), get_string('backtocourse', 'wowslider'));
-    echo '</center>';
+if ($course->format == 'page') {
+    include_once($CFG->dirroot.'/course/format/page/xlib.php');
+    page_print_page_format_navigation($cm, $backtocourse = false);
+} else {
+    if ($COURSE->format != 'singleactivity') {
+        echo '<div style="text-align:center;margin:8px">';
+        echo $OUTPUT->single_button(new moodle_url('/course/view.php', array('id' => $course->id)), get_string('backtocourse', 'tracker'), 'post', array('class' => 'backtocourse'));
+        echo '</div>';
+    }
 }
 
 // Finish the page.

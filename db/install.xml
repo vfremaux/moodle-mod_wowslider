@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/mplayer/db" VERSION="20070401" COMMENT="XMLDB file for Moodle mod/mplayer"
+<XMLDB PATH="mod/wowslider/db" VERSION="20070401" COMMENT="XMLDB file for Moodle mod/wowslider"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -25,8 +25,12 @@
             <FIELD NAME="playloop" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="loop" PREVIOUS="stoponhover" NEXT="bullets" />
             <FIELD NAME="bullets" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="show captions" PREVIOUS="playloop" NEXT="caption" />
             <FIELD NAME="caption" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="show captions" PREVIOUS="bullets" NEXT="controls" />
-            <FIELD NAME="controls" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="show controls" PREVIOUS="caption" NEXT="fullscreen" />
-            <FIELD NAME="fullscreen" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="show fulscreen" PREVIOUS="controls" />
+            <FIELD NAME="controls" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="show controls" PREVIOUS="caption" NEXT="showstartbutton" />
+            <FIELD NAME="showstartbutton" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="show controls" PREVIOUS="controls" NEXT="lockdragslides" />
+            <FIELD NAME="lockdragslides" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="show controls" PREVIOUS="showstartbutton" NEXT="fullscreen" />
+            <FIELD NAME="fullscreen" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="show fulscreen" PREVIOUS="lockdragslides" NEXT="notificationslide" />
+            <FIELD NAME="notificationslide" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="notification slide show" PREVIOUS="fullscreen" NEXT="completionmediaviewed" />
+            <FIELD NAME="completionmediaviewed" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" COMMENT="notification slide show" PREVIOUS="notificationslide" />
         </FIELDS>
         <KEYS>
             <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -35,20 +39,37 @@
             <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
         </INDEXES>
     </TABLE>
-    <TABLE NAME="wowslider_slide" COMMENT="Wrapper for wowslider presentation" PREVIOUS="wowslider">
+    <TABLE NAME="wowslider_slide" COMMENT="Wrapper for wowslider presentation" PREVIOUS="wowslider" NEXT="wowslider_slide_view">
         <FIELDS>
             <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" COMMENT="id" NEXT="wowsliderid"/>
             <FIELD NAME="wowsliderid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="wowslider" PREVIOUS="id" NEXT="filename"/>
             <FIELD NAME="filename" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="image name non editable" PREVIOUS="wowsliderid" NEXT="url"/>
             <FIELD NAME="url" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="url to link" PREVIOUS="filename" NEXT="title"/>
             <FIELD NAME="title" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="title" PREVIOUS="url" NEXT="tooltip"/>
-            <FIELD NAME="tooltip" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="tooltip" PREVIOUS="title" />
+            <FIELD NAME="tooltip" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="tooltip" PREVIOUS="title" NEXT="video" />
+            <FIELD NAME="video" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="url video" PREVIOUS="tooltip"/>
         </FIELDS>
         <KEYS>
             <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         </KEYS>
         <INDEXES>
             <INDEX NAME="wowslider_ix" UNIQUE="false" FIELDS="wowsliderid"/>
+        </INDEXES>
+    </TABLE>
+    <TABLE NAME="wowslider_slide_view" COMMENT="Stores user viewes" PREVIOUS="wowslider_slide">
+        <FIELDS>
+            <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" COMMENT="id" NEXT="wowsliderid"/>
+            <FIELD NAME="wowsliderid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="wowslider" PREVIOUS="id" NEXT="userid"/>
+            <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="user ID" PREVIOUS="wowsliderid" NEXT="viewes"/>
+            <FIELD NAME="views" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="number of viewes" PREVIOUS="userid" NEXT="timefirstview"/>
+            <FIELD NAME="timefirstview" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="tooltip" PREVIOUS="views" NEXT="timecomplete" />
+            <FIELD NAME="timecomplete" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="time completed" PREVIOUS="timefirstview"/>
+        </FIELDS>
+        <KEYS>
+            <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        </KEYS>
+        <INDEXES>
+            <INDEX NAME="wowslider_user_ix" UNIQUE="false" FIELDS="wowsliderid,userid"/>
         </INDEXES>
     </TABLE>
   </TABLES>

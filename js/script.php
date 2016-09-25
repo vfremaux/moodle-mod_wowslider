@@ -9,12 +9,16 @@ if (!$wowslider = $DB->get_record('wowslider', array('id' => $wid))) {
     die;
 }
 
+echo "var wwwroot = '{$CFG->wwwroot}'; ";
+echo "var wowsliderid = '{$wid}'; ";
+echo "var userid = '{$USER->id}'; ";
+
 ?>
 //***********************************************
 // Obfuscated by Javascript Obfuscator
 // http://javascript-source.com
 //***********************************************
-jQuery("#wowslider-container1").wowSlider({
+$("#wowslider-container").wowSlider({
         effect:"<?php echo $wowslider->effect ?>",
         prev:"",
         next:"",

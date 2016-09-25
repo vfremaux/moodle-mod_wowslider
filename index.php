@@ -18,11 +18,12 @@
  * This page lists all the instances of wowslider in a particular course
  *
  * @author Valery Fremaux (valery.fremaux@gmail.com)
- * @package mod-wowslider
+ * @package mod_wowslider
+ * @licence http://www.gnu.org/copyleft/gpl.html GNU Public Licence
  * @category mod
- **/
-require_once("../../config.php");
-require_once('lib.php');
+ */
+require('../../config.php');
+require_once($CFG->dirroot.'/mod/wowslider/lib.php');
 
 $id = required_param('id', PARAM_INT);   // Course ID.
 
@@ -30,32 +31,38 @@ if (! $course = $DB->get_record('course', array('id' => $id))) {
     print_error('coursemisconf');
 }
 
+// Security.
+
 require_login($course->id);
-add_to_log($course->id, 'wowslider', "view all", "index.php?id=$course->id", "");
+
+$context = context_module::instance($cm->id);
+// Trigger module viewed event.
+$event = \mod_wowslider\event\wowslider_viewedall::create(array(
+    'objectid' => $course->id,
+    'context' => $context,
+    'other' => array(
+        'objectname' => 'wowslider'
+    )
+));
+$event->add_record_snapshot('course_modules', $cm);
+$event->add_record_snapshot('course', $course);
+$event->trigger();
 
 // Get all required strings.
 $strwowsliders = get_string('modulenameplural', 'wowslider');
 $strwowslider  = get_string('modulename', 'wowslider');
 
-// Print the header.
-if ($course->category) {
-    $navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
-} else {
-    $navigation = '';
-}
-
 $PAGE->set_title("$course->shortname: $strwowsliders");
 $PAGE->set_heading("$course->fullname");
-$PAGE->set_focuscontrol("");
 $PAGE->set_cacheable(true);
-$PAGE->set_button("");
 
 echo $OUTPUT->header();
 
 // Get all the appropriate data.
 
 if (! $sliders = get_all_instances_in_course('wowslider', $course)) {
-    notice("There are no slides", "../../course/view.php?id=$course->id");
+    echo $OUTPUT->notification(get_string('noslides', 'wowslider'), new moodle_url('/course/view.php', array('id' => $course->id)));
+    echo $OUTPUT->footer();
     die;
 }
 

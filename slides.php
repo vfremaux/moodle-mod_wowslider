@@ -17,10 +17,10 @@
 /**
  * This page prints a particular instance of wowslider
  *
- * @author Matt Bury - matbury@gmail.com
- * @version $Id: view.php,v 1.1 2010/01/15 matbury Exp $
+ * @author Valery Fremaux (valery.fremaux@gmail.com)
  * @licence http://www.gnu.org/copyleft/gpl.html GNU Public Licence
- * @package wowslider
+ * @package mod_wowslider
+ * @category mod
  */
 require_once('../../config.php');
 require_once($CFG->dirroot.'/mod/wowslider/lib.php');
@@ -70,17 +70,18 @@ echo $OUTPUT->heading(get_string('wowslides', 'wowslider'));
 $strfilename = get_string('filename', 'wowslider');
 $strurl = get_string('url', 'wowslider');
 $strtitle = get_string('title', 'wowslider');
+$strurlvideo = get_string('url_video', 'wowslider');
 
 if (!empty($slides)) {
     $table = new html_table();
-    $table->head = array($strfilename, $strurl, $strtitle, '');
-    $table->size = array('20%', '40%', '30%', '10%');
-    $table->align = array('left', 'left', 'left', 'right');
+    $table->head = array($strfilename, $strurl, $strtitle, $strurlvideo, '');
+    $table->size = array('15%', '30%', '25%', '25%', '5%');
+    $table->align = array('left', 'left', 'left', 'left', 'right');
 
     foreach ($slides as $slide) {
         $editurl = new moodle_url('/mod/wowslider/edit_slide.php', array('id' => $cm->id, 'slideid' => $slide->id));
         $commands = '<a href="'.$editurl.'"><img src="'.$OUTPUT->pix_url('t/edit').'" /></a>';
-        $table->data[] = array($slide->filename, $slide->url, $slide->title, $commands);
+        $table->data[] = array($slide->filename, $slide->url, $slide->title, $slide->video, $commands);
     }
 
     echo html_writer::table($table);

@@ -25,9 +25,12 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$plugin->version  = 2014112800;  // The current module version (Date: YYYYMMDDXX)
-$plugin->release = "Moodle 2.6.0 (Build 2014081100)";
+$plugin->version  = 2015040200;  // The current module version (Date: YYYYMMDDXX)
+$plugin->release = "Moodle 2.7.0 (Build 2014081102)";
 $plugin->requires = 2012120300;
 $plugin->component = 'mod_wowslider';
 $plugin->maturity = MATURITY_BETA;
 $plugin->cron     = 0;           // Period for cron to check this module (secs)
+
+// Non moodle attributes
+$plugin->codeincrement = '2.7.0000';

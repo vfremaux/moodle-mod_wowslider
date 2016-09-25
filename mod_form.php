@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * This view allows checking deck states
  *
  * @package mod_wowslider
  * @category mod
  * @author Valery Fremaux
- * @contributors Etienne Roze
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  */
-
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
 
 /**
@@ -34,6 +34,12 @@ class mod_wowslider_mod_form extends moodleform_mod {
     public function definition() {
         global $CFG, $COURSE;
 
+        $config = get_config('wowslider');
+
+        if (empty($config->maxallowedfiles)) {
+            set_config('maxallowedfiles', 100, 'wowslider');
+        }
+
         $mform    =& $this->_form;
 
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -41,18 +47,20 @@ class mod_wowslider_mod_form extends moodleform_mod {
         $mform->setType('name', PARAM_CLEANHTML);
         $mform->addRule('name', null, 'required', null, 'client');
 
-        $this->add_intro_editor(true, get_string('intro', 'magtest'));
+        $this->add_intro_editor(true, get_string('intro', 'wowslider'));
 
         // mplayerfile
-        $mform->addElement('filemanager', 'wowslides', get_string('wowslides', 'wowslider'), null, array('courseid' => $COURSE->id, 'maxfiles' => 30));
+        $mform->addElement('filemanager', 'wowslides', get_string('wowslides', 'wowslider'), null, array('courseid' => $COURSE->id, 'maxfiles' => $config->maxallowedfiles));
         $mform->addRule('wowslides', get_string('required'), 'required', null, 'client');
 
-        $mform->addElement('filemanager', 'tooltips', get_string('tooltips', 'wowslider'), null, array('courseid' => $COURSE->id, 'maxfiles' => 30));
+        $mform->addElement('filemanager', 'tooltips', get_string('tooltips', 'wowslider'), null, array('courseid' => $COURSE->id, 'maxfiles' => $config->maxallowedfiles));
 
         $mform->addElement('text', 'width', get_string('width', 'wowslider'));
+        $mform->addRule('width', get_string('required'), 'required', null, 'client');
         $mform->setType('width', PARAM_TEXT);
 
         $mform->addElement('text', 'height', get_string('height', 'wowslider'));
+        $mform->addRule('height', get_string('required'), 'required', null, 'client');
         $mform->setType('height', PARAM_INT);
 
         $effectoptions = array(
@@ -77,9 +85,11 @@ class mod_wowslider_mod_form extends moodleform_mod {
 
         $mform->addElement('text', 'slideduration', get_string('duration', 'wowslider'), 20, array('size' => 3));
         $mform->setType('slideduration', PARAM_INT);
+        $mform->setDefault('slideduration', 10);
 
         $mform->addElement('text', 'delay', get_string('delay', 'wowslider'), 20, array('size' => 3));
         $mform->setType('delay', PARAM_INT);
+        $mform->setDefault('delay', 10);
 
         $mform->addElement('checkbox', 'autoplay', get_string('autoplay', 'wowslider'));
         $mform->setType('autoplay', PARAM_INT);
@@ -90,8 +100,8 @@ class mod_wowslider_mod_form extends moodleform_mod {
         $mform->addElement('checkbox', 'stoponhover', get_string('stoponhover', 'wowslider'));
         $mform->setType('stoponhover', PARAM_INT);
 
-        $mform->addElement('checkbox', 'loop', get_string('loop', 'wowslider'));
-        $mform->setType('loop', PARAM_INT);
+        $mform->addElement('checkbox', 'playloop', get_string('loop', 'wowslider'));
+        $mform->setType('playloop', PARAM_INT);
 
         $mform->addElement('checkbox', 'bullets', get_string('bullets', 'wowslider'));
         $mform->setType('bullets', PARAM_INT);
@@ -104,6 +114,15 @@ class mod_wowslider_mod_form extends moodleform_mod {
 
         $mform->addElement('checkbox', 'fullscreen', get_string('fullscreen', 'wowslider'));
         $mform->setType('fullscreen', PARAM_INT);
+
+        $mform->addElement('checkbox', 'showstartbutton', get_string('showstartbutton', 'wowslider'));
+        $mform->setType('showstartbutton', PARAM_INT);
+
+        $mform->addElement('checkbox', 'lockdragslides', get_string('lockdragslides', 'wowslider'));
+        $mform->setType('lockdragslides', PARAM_INT);
+
+        $mform->addElement('checkbox', 'notificationslide', get_string('notificationslide', 'wowslider'));
+        $mform->setType('notificationslide', PARAM_INT);
 
         $this->standard_coursemodule_elements();
         $this->add_action_buttons();
@@ -131,5 +150,17 @@ class mod_wowslider_mod_form extends moodleform_mod {
             }
         }
         parent::set_data($data);
+    }
+
+    function add_completion_rules() {
+        $mform =& $this->_form;
+
+        $mform->addElement('checkbox', 'completionmediaviewed', get_string('mediaviewed', 'wowslider'), get_string('completionmediaviewed', 'wowslider'));
+
+        return array('completionmediaviewed');
+    }
+
+    function completion_rule_enabled($data) {
+        return(!empty($data['completionmediaviewed']));
     }
 }
