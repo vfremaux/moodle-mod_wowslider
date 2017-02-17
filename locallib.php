@@ -14,13 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * @author Valery Fremaux (valery.fremaux@gmail.com)
  * @package mod_wowslider
  * @category mod
  */
+defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/wowslider/Mobile_Detect.php');
 
@@ -38,7 +37,7 @@ class WowSlider {
         global $DB;
 
         $this->cm = $cm;
-        // todo : check $cm / $instanceid integrity
+        // Todo : check $cm / $instanceid integrity.
 
         if (is_numeric($instanceidorrec)) {
             if (!$this->wowsliderrec = $DB->get_record('wowslider', array('id' => $instanceidorrec))) {
@@ -68,7 +67,8 @@ class WowSlider {
                     continue;
                 }
                 $img = new StdClass;
-                $img->url = moodle_url::make_pluginfile_url($file->get_contextid(), 'mod_wowslider', $filearea, 0, $file->get_filepath(), $file->get_filename());
+                $img->url = moodle_url::make_pluginfile_url($file->get_contextid(), 'mod_wowslider', $filearea, 0,
+                                                            $file->get_filepath(), $file->get_filename());
                 $img->title = '';
                 $img->filename = $file->get_filename();
                 $loadedimages[] = $img;
@@ -90,7 +90,8 @@ class WowSlider {
 
         foreach ($this->images as $img) {
 
-            $linkdata = $DB->get_record('wowslider_slide', array('filename' => $img->filename, 'wowsliderid' => $this->wowsliderrec->id));
+            $params = array('filename' => $img->filename, 'wowsliderid' => $this->wowsliderrec->id);
+            $linkdata = $DB->get_record('wowslider_slide', $params);
 
             $_video = '';
             if (@$linkdata->video) {
@@ -141,14 +142,12 @@ class WowSlider {
 
         $c_bullets = $i;
         $detector = new Mobile_Detect();
-        $slider_body = '';
-        $width = (is_numeric($this->wowsliderrec->width)) ? $this->wowsliderrec->width.'px' : $this->wowsliderrec->width ;
+        $sliderbody = '';
+        $width = (is_numeric($this->wowsliderrec->width)) ? $this->wowsliderrec->width.'px' : $this->wowsliderrec->width;
 
         $_width = $this->wowsliderrec->width . 'px';
         $_height = $this->wowsliderrec->height . 'px';
-        $_style = '
-        <style>
-            ';
+        $_style = '<style>';
         if (empty($this->wowsliderrec->showstartbutton)) {
             $_style .= '
                #wowslider-container .ws_playpause {
@@ -174,25 +173,25 @@ class WowSlider {
             #wowslider-container .ws_images > div > img {max-height:' . $_height . ';}
         </style>';
 
-        if($scriptyoutube) $slider_body .= '<script src="https://www.youtube.com/iframe_api"></script>';
-        if($scriptvimeo) $slider_body .= '<script src="http://a.vimeocdn.com/js/froogaloop2.min.js"></script>';
+        if($scriptyoutube) $sliderbody .= '<script src="https://www.youtube.com/iframe_api"></script>';
+        if($scriptvimeo) $sliderbody .= '<script src="http://a.vimeocdn.com/js/froogaloop2.min.js"></script>';
 
-        $slider_body .= $_style;
+        $sliderbody .= $_style;
         if ($detector->isMobile()) {
-            $slider_body .= '<div id="wow-wrapper" style="width:100%;margin:auto">';
-            $slider_body .= '<div id="wowslider-container" style="width:100%">';
+            $sliderbody .= '<div id="wow-wrapper" style="width:100%;margin:auto">';
+            $sliderbody .= '<div id="wowslider-container" style="width:100%">';
         } else {
-            $slider_body .= '<div id="wow-wrapper" style="width:'.$width.';margin:auto">';
-            $slider_body .= '<div id="wowslider-container">';
+            $sliderbody .= '<div id="wow-wrapper" style="width:'.$width.';margin:auto">';
+            $sliderbody .= '<div id="wowslider-container">';
         }
         if (!$detector->isMobile()) {
-            $slider_body .= '<div class="ws_images" style="height:'.$this->wowsliderrec->height.'px"><ul>';
+            $sliderbody .= '<div class="ws_images" style="height:'.$this->wowsliderrec->height.'px"><ul>';
         } else {
-            $slider_body .= '<div class="ws_images"><ul>';
+            $sliderbody .= '<div class="ws_images"><ul>';
         }
 
-        $slider_body .= $images;
-        $slider_body .= '</ul></div>
+        $sliderbody .= $images;
+        $sliderbody .= '</ul></div>
         <div class="ws_bullets" data-id="'.$c_bullets.'"><div>
         '.$tooltips.'
         </div></div>
@@ -200,12 +199,12 @@ class WowSlider {
         </div>';
 
         if ($this->wowsliderrec->notificationslide) {
-            $slider_body .= '<div class="notif_slide"></div>';
+            $sliderbody .= '<div class="notif_slide"></div>';
         }
 
-        $slider_body .= '</div>';
+        $sliderbody .= '</div>';
 
-        return $slider_body;
+        return $sliderbody;
     }
 
     /**
@@ -225,7 +224,8 @@ class WowSlider {
 
         if ($this->wowsliderrec->notificationslide) {
             $PAGE->requires->js('/mod/wowslider/js/attrchange.js', false);
-            if (isloggedin() && !is_guest($PAGE->context)) {
+            $context = context_module::instance($this->cm->id);
+            if (isloggedin() && !is_guest($context)) {
                 $PAGE->requires->js('/mod/wowslider/js/attrchangecallback.js', false);
             }
         }
@@ -278,7 +278,7 @@ function wowslider_save_draft_file(&$wowslider, $filearea) {
     }
 
     if ($filearea == 'wowslides' || $filearea == 'tooltips') {
-        if (!$fs->is_area_empty($usercontext->id, 'user', 'draft', $filepickeritemid, true)){
+        if (!$fs->is_area_empty($usercontext->id, 'user', 'draft', $filepickeritemid, true)) {
             $filearea = str_replace('fileid', '', $filearea);
             file_save_draft_area_files($filepickeritemid, $context->id, 'mod_wowslider', $filearea, 0);
             if ($savedfiles = $fs->get_area_files($context->id, 'mod_wowslider', $filearea, 0)) {
@@ -287,14 +287,16 @@ function wowslider_save_draft_file(&$wowslider, $filearea) {
                     $mtdrecords = $DB->get_records('wowslider_slide', array('wowsliderid' => $wowslider->id), 'filename', 'filename,id,url,title,tooltip');
                     foreach ($savedfiles as $afile) {
                         $filename= $afile->get_filename();
-                        if ($afile->is_directory()) continue;
+                        if ($afile->is_directory()) {
+                            continue;
+                        }
                         if (!$DB->record_exists('wowslider_slide', array('wowsliderid' => $wowslider->id, 'filename' => $filename))) {
                             $mtdrec = new StdClass();
                             $mtdrec->wowsliderid = $wowslider->id;
                             $mtdrec->filename = $filename;
                             $DB->insert_record('wowslider_slide', $mtdrec);
                         } else {
-                            // just unmark it
+                            // Just unmark it.
                             unset($mtdrecords[$filename]);
                         }
                     }
@@ -333,7 +335,7 @@ function wowslider_generate_thumb_image(stored_file $file, $maxwidth, $maxheight
     $attrib = array('alt' => $file->get_filename(), 'src' => $fullurl);
 
     if ($imginfo = $file->get_imageinfo()) {
-        // Work out the new width / height, bounded by maxwidth / maxheight
+        // Work out the new width / height, bounded by maxwidth / maxheight.
         $width = $imginfo['width'];
         $height = $imginfo['height'];
         if (!empty($maxwidth) && $width > $maxwidth) {
@@ -370,7 +372,7 @@ function wowslider_generate_thumb_image(stored_file $file, $maxwidth, $maxheight
                     );
                     $smallfile = $fs->create_file_from_string($record, $data);
 
-                    // Replace the image 'src' with the resized file and link to the original
+                    // Replace the image 'src' with the resized file and link to the original.
                     $attrib['src'] = moodle_url::make_draftfile_url($smallfile->get_itemid(), $smallfile->get_filepath(),
                         $smallfile->get_filename());
                     $link = $fullurl;
@@ -379,7 +381,7 @@ function wowslider_generate_thumb_image(stored_file $file, $maxwidth, $maxheight
         }
 
     } else {
-        // Assume this is an image type that get_imageinfo cannot handle (e.g. SVG)
+        // Assume this is an image type that get_imageinfo cannot handle (e.g. SVG).
         $attrib['width'] = $maxwidth;
     }
 

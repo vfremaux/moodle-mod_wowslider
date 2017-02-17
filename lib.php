@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Library of functions and constants for module wowslider
  *
@@ -24,6 +22,8 @@ defined('MOODLE_INTERNAL') || die();
  * @category mod
  * @licence http://www.gnu.org/copyleft/gpl.html GNU Public Licence
  */
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot.'/mod/wowslider/locallib.php');
 
 /**
@@ -33,17 +33,26 @@ require_once($CFG->dirroot.'/mod/wowslider/locallib.php');
  */
 function wowslider_supports($feature) {
     switch($feature) {
-        case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_OTHER;
-        case FEATURE_GROUPS:                  return false;
-        case FEATURE_GROUPINGS:               return false;
-        case FEATURE_GROUPMEMBERSONLY:        return false;
-        case FEATURE_MOD_INTRO:               return true;
-        case FEATURE_COMPLETION_TRACKS_VIEWS: return true;
-        case FEATURE_GRADE_HAS_GRADE:         return false;
-        case FEATURE_GRADE_OUTCOMES:          return false;
-        case FEATURE_BACKUP_MOODLE2:          return true;
-        case FEATURE_SHOW_DESCRIPTION:        return true;
-        case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_RESOURCE;
+        case FEATURE_MOD_ARCHETYPE:
+            return MOD_ARCHETYPE_RESOURCE;
+        case FEATURE_GROUPS:
+            return false;
+        case FEATURE_GROUPINGS:
+            return false;
+        case FEATURE_GROUPMEMBERSONLY:
+            return false;
+        case FEATURE_MOD_INTRO:
+            return true;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:
+            return true;
+        case FEATURE_GRADE_HAS_GRADE:
+            return false;
+        case FEATURE_GRADE_OUTCOMES:
+            return false;
+        case FEATURE_BACKUP_MOODLE2:
+            return true;
+        case FEATURE_SHOW_DESCRIPTION:
+            return true;
 
         default: return null;
     }
@@ -61,17 +70,39 @@ function wowslider_supports($feature) {
 function wowslider_add_instance($wowslider) {
     global $DB;
 
-    if (!isset($wowslider->autoplay)) $wowslider->autoplay = 0;
-    if (!isset($wowslider->autoplayvideo)) $wowslider->autoplayvideo = 0;
-    if (!isset($wowslider->stoponhover)) $wowslider->stoponhover = 0;
-    if (!isset($wowslider->playloop)) $wowslider->playloop = 0;
-    if (!isset($wowslider->bullets)) $wowslider->bullets = 0;
-    if (!isset($wowslider->caption)) $wowslider->caption = 0;
-    if (!isset($wowslider->controls)) $wowslider->controls = 0;
-    if (!isset($wowslider->fullscreen)) $wowslider->fullscreen = 0;
-    if (!isset($wowslider->showstartbutton)) $wowslider->showstartbutton = 0;
-    if (!isset($wowslider->lockdragslides)) $wowslider->lockdragslides = 0;
-    if (!isset($wowslider->notificationslide)) $wowslider->notificationslide = 0;
+    if (!isset($wowslider->autoplay)) {
+        $wowslider->autoplay = 0;
+    }
+    if (!isset($wowslider->autoplayvideo)) {
+        $wowslider->autoplayvideo = 0;
+    }
+    if (!isset($wowslider->stoponhover)) {
+        $wowslider->stoponhover = 0;
+    }
+    if (!isset($wowslider->playloop)) {
+        $wowslider->playloop = 0;
+    }
+    if (!isset($wowslider->bullets)) {
+        $wowslider->bullets = 0;
+    }
+    if (!isset($wowslider->caption)) {
+        $wowslider->caption = 0;
+    }
+    if (!isset($wowslider->controls)) {
+        $wowslider->controls = 0;
+    }
+    if (!isset($wowslider->fullscreen)) {
+        $wowslider->fullscreen = 0;
+    }
+    if (!isset($wowslider->showstartbutton)) {
+        $wowslider->showstartbutton = 0;
+    }
+    if (!isset($wowslider->lockdragslides)) {
+        $wowslider->lockdragslides = 0;
+    }
+    if (!isset($wowslider->notificationslide)) {
+        $wowslider->notificationslide = 0;
+    }
 
     $wowslider->timemodified = time();
 

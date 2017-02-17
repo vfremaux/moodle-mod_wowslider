@@ -14,19 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * @author Valery Fremaux (valery.fremaux@gmail.com)
  * @package mod_wowslider
  * @category mod
  * @licence http://www.gnu.org/copyleft/gpl.html GNU Public Licence
  */
+defined('MOODLE_INTERNAL') || die();
+
 require('../../../config.php');
 require_once($CFG->dirroot.'/mod/wowslider/lib.php');
 require_once($CFG->dirroot.'/mod/wowslider/locallib.php');
 
-$wsid = required_param('wsid', PARAM_INT); // Slider instance id
+$wsid = required_param('wsid', PARAM_INT); // Slider instance id.
 $action = required_param('what', PARAM_TEXT);
 
 if (!$wowslider = $DB->get_record('wowslider', array('id' => $wsid))) {
@@ -68,7 +68,7 @@ if ($action == 'complete') {
     $wsuserdata->timecomplete = time();
 
     $DB->update_record('wowslider_slide_view', $wsuserdata);
-    // mark completed on mediaviewed criteria.
+    // Mark completed on mediaviewed criteria.
     $completion = new completion_info($course);
     if ($completion->is_enabled($cm) && $wowslider->completionmediaviewed) {
         $completion->update_state($cm, COMPLETION_COMPLETE);

@@ -25,7 +25,7 @@
 require('../../config.php');
 require_once($CFG->dirroot.'/mod/wowslider/lib.php');
 
-$id = required_param('id', PARAM_INT);   // Course ID.
+$id = required_param('id', PARAM_INT); // Course ID.
 
 if (! $course = $DB->get_record('course', array('id' => $id))) {
     print_error('coursemisconf');
