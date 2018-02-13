@@ -35,22 +35,31 @@ function wowslider_supports($feature) {
     switch($feature) {
         case FEATURE_MOD_ARCHETYPE:
             return MOD_ARCHETYPE_RESOURCE;
+
         case FEATURE_GROUPS:
             return false;
+
         case FEATURE_GROUPINGS:
             return false;
+
         case FEATURE_GROUPMEMBERSONLY:
             return false;
+
         case FEATURE_MOD_INTRO:
             return true;
+
         case FEATURE_COMPLETION_TRACKS_VIEWS:
             return true;
+
         case FEATURE_GRADE_HAS_GRADE:
             return false;
+
         case FEATURE_GRADE_OUTCOMES:
             return false;
+
         case FEATURE_BACKUP_MOODLE2:
             return true;
+
         case FEATURE_SHOW_DESCRIPTION:
             return true;
 
@@ -108,7 +117,7 @@ function wowslider_add_instance($wowslider) {
 
     $wowslider->id = $return = $DB->insert_record('wowslider', $wowslider);
 
-    // saves draft customization image files into definitive filearea
+    // Saves draft customization image files into definitive filearea.
     $instancefiles = wowslider_get_fileareas();
     foreach ($instancefiles as $if) {
         wowslider_save_draft_file($wowslider, $if);
@@ -131,23 +140,49 @@ function wowslider_update_instance($wowslider) {
     // If changing mode, we need delete all previous user dataas they are NOT relevant any more.
     // @TODO : add notification in mod_form to alert users...
 
-    if (!isset($wowslider->autoplay)) $wowslider->autoplay = 0;
-    if (!isset($wowslider->autoplayvideo)) $wowslider->autoplayvideo = 0;
-    if (!isset($wowslider->stoponhover)) $wowslider->stoponhover = 0;
-    if (!isset($wowslider->playloop)) $wowslider->playloop = 0;
-    if (!isset($wowslider->bullets)) $wowslider->bullets = 0;
-    if (!isset($wowslider->caption)) $wowslider->caption = 0;
-    if (!isset($wowslider->controls)) $wowslider->controls = 0;
-    if (!isset($wowslider->fullscreen)) $wowslider->fullscreen = 0;
-    if (!isset($wowslider->showstartbutton)) $wowslider->showstartbutton = 0;
-    if (!isset($wowslider->lockdragslides)) $wowslider->lockdragslides = 0;
-    if (!isset($wowslider->notificationslide)) $wowslider->notificationslide = 0;
+    if (!isset($wowslider->autoplay)) {
+        $wowslider->autoplay = 0;
+    }
+    if (!isset($wowslider->autoplayvideo)) {
+        $wowslider->autoplayvideo = 0;
+    }
+    if (!isset($wowslider->stoponhover)) {
+        $wowslider->stoponhover = 0;
+    }
+    if (!isset($wowslider->playloop)) {
+        $wowslider->playloop = 0;
+    }
+    if (!isset($wowslider->bullets)) {
+        $wowslider->bullets = 0;
+    }
+    if (!isset($wowslider->caption)) {
+        $wowslider->caption = 0;
+    }
+    if (!isset($wowslider->controls)) {
+        $wowslider->controls = 0;
+    }
+    if (!isset($wowslider->fullscreen)) {
+        $wowslider->fullscreen = 0;
+    }
+    if (!isset($wowslider->showstartbutton)) {
+        $wowslider->showstartbutton = 0;
+    }
+    if (!isset($wowslider->lockdragslides)) {
+        $wowslider->lockdragslides = 0;
+    }
+    if (!isset($wowslider->notificationslide)) {
+        $wowslider->notificationslide = 0;
+    }
 
     $wowslider->timemodified = time();
     $wowslider->id = $wowslider->instance;
 
-    if (!isset($wowslider->timemodified)) $wowslider->timemodified = 0;
-    if (!isset($wowslider->timecreated)) $wowslider->timecreated = 0;
+    if (!isset($wowslider->timemodified)) {
+        $wowslider->timemodified = 0;
+    }
+    if (!isset($wowslider->timecreated)) {
+        $wowslider->timecreated = 0;
+    }
 
     // Saves draft customization image files into definitive filearea.
     $instancefiles = wowslider_get_fileareas();
@@ -156,7 +191,6 @@ function wowslider_update_instance($wowslider) {
     }
 
     return $DB->update_record('wowslider', $wowslider);
-    die;
 }
 
 /**
@@ -182,7 +216,7 @@ function wowslider_delete_instance($id) {
 
     $result = true;
 
-    # Delete any dependent records here.
+    // Delete any dependent records here.
 
     if (! $DB->delete_records('wowslider', array('id' => "$wowslider->id"))) {
         $result = false;
@@ -195,6 +229,36 @@ function wowslider_delete_instance($id) {
     return $result;
 }
 
+
+/**
+ * This function makes a last post process of the cminfo information
+ * for module info caching in memory when course displays. Here we
+ * can tweek some information to force cminfo behave like some label kind
+ * @see : Page format use the pageitem.php strategy for dealing with the
+ * content display rules.
+ * @todo : reevaluate strategy. this may still be used for improving standard formats.
+ */
+function wowslider_cm_info_dynamic(&$cminfo) {
+    global $DB, $PAGE, $CFG, $COURSE;
+
+    $cm = get_coursemodule_from_instance('wowslider', $cminfo->instance);
+
+    if ($wowslider = new WowSlider($cminfo->instance, $cm)) {
+        if (!$PAGE->requires->is_head_done()) {
+            $wowslider->require_js();
+            $wowslider->require_css();
+        }
+        if (!empty($wowslider->showincourse)) {
+            $renderer = $PAGE->get_renderer('mod_wowslider');
+            $content = $renderer->print_body($wowslider);
+
+            // Disable url form of the course module representation.
+            $cminfo->set_no_view_link();
+            $cminfo->set_content($content);
+            $cminfo->set_extra_classes('label'); // Important, or customlabel WILL NOT be deletable in topic/week course.
+        }
+    }
+}
 /**
  * Return a small object with summary information about what a 
  * user has done with a given particular instance of this module
@@ -229,7 +293,8 @@ function wowslider_user_outline($course, $user, $mod, $wowslider) {
 function wowslider_user_complete($course, $user, $mod, $wowslider) {
     global $DB;
 
-    if ($accesses = $DB->get_records_select('log', " userid = ? AND module = 'wowslider' and action = 'view' ", array($user->id))) {
+    $select = " userid = ? AND module = 'wowslider' and action = 'view' ";
+    if ($accesses = $DB->get_records_select('log', $select, array($user->id))) {
         echo '<br/>';
         echo get_string('wowslideraccesses', 'wowslider', count($accesses)) ;
     }
@@ -281,7 +346,7 @@ function wowslider_cron () {
  * @return mixed Null or object with an array of grades and with the maximum grade
  **/
 function wowslider_grades($wowsliderid) {
-   return NULL;
+   return null;
 }
 
 /**
@@ -331,14 +396,9 @@ function wowslider_get_participants($wowsliderid) {
  * @return mixed
  * @todo Finish documenting this function
  **/
-function wowslider_scale_used ($wowsliderid,$scaleid) {
+function wowslider_scale_used($wowsliderid,$scaleid) {
     $return = false;
 
-    //$rec = get_record("wowslider","id","$wowsliderid","scale","-$scaleid");
-    //
-    //if (!empty($rec)  && !empty($scaleid)) {
-    //    $return = true;
-    //}
     return $return;
 }
 
@@ -367,6 +427,8 @@ function wowslider_reset_userdata($data) {
 function wowslider_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload) {
     global $CFG, $DB;
 
+    $config = get_config('wowslider');
+
     if ($context->contextlevel != CONTEXT_MODULE) {
         return false;
     }
@@ -383,7 +445,7 @@ function wowslider_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
     }
 
     if (!$guests) {
-        if ($cm->instance != $CFG->localmywowsliderid) {
+        if ($cm->instance != $config->localmywowsliderid) {
             require_course_login($course, true, $cm);
         } else {
             // Just check is a logged in user.

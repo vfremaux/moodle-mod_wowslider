@@ -25,13 +25,13 @@ require_once($CFG->dirroot.'/mod/wowslider/Mobile_Detect.php');
 
 class WowSlider {
 
-    var $cm;
+    protected $cm;
 
-    var $images;
+    protected $images;
 
-    var $tooltips;
+    protected $tooltips;
 
-    var $wowsliderrec;
+    protected $wowsliderrec;
 
     function __construct($instanceidorrec, $cm) {
         global $DB;
@@ -52,6 +52,12 @@ class WowSlider {
     }
 
     function __get($attr) {
+        if ($attr == 'images') {
+            return $this->images;
+        }
+        if ($attr == 'tooltips') {
+            return $this->tooltips;
+        }
         return $this->wowsliderrec->$attr;
     }
 
@@ -93,24 +99,24 @@ class WowSlider {
             $params = array('filename' => $img->filename, 'wowsliderid' => $this->wowsliderrec->id);
             $linkdata = $DB->get_record('wowslider_slide', $params);
 
-            $_video = '';
+            $videohtml = '';
             if (@$linkdata->video) {
                 if (strpos(@$linkdata->video, 'youtube') !== false) {
                     $scriptyoutube = true;
                     $embed = str_replace('watch?v=', 'embed/', @$linkdata->video);
-                    $_video =  '<iframe width="100%" height="100%" src="' . $embed . '?autoplay=' . $this->wowsliderrec->autoplayvideo . '&rel=0&enablejsapi=1&playerapiid=ytplayer&wmode=transparent" frameborder="0"></iframe>';
+                    $videohtml =  '<iframe width="100%" height="100%" src="' . $embed . '?autoplay=' . $this->wowsliderrec->autoplayvideo . '&rel=0&enablejsapi=1&playerapiid=ytplayer&wmode=transparent" frameborder="0"></iframe>';
                 }
                 if (strpos(@$linkdata->video, 'vimeo') !== false) {
                     $scriptvimeo = true;
                     $embed = str_replace('http://vimeo.com/', 'https://player.vimeo.com/video/', @$linkdata->video);
-                    $_video =  '<iframe width="100%" height="100%" src="' . $embed . '?autoplay=' . $this->wowsliderrec->autoplayvideo . '&title=0&byline=0&badge=0&portrait=0&api=1&player_id="wows'.$this->wowsliderrec->id.'_'.$i.'" id="wows'.$this->wowsliderrec->id.'_'.$i.'"></iframe>';
+                    $videohtml =  '<iframe width="100%" height="100%" src="' . $embed . '?autoplay=' . $this->wowsliderrec->autoplayvideo . '&title=0&byline=0&badge=0&portrait=0&api=1&player_id="wows'.$this->wowsliderrec->id.'_'.$i.'" id="wows'.$this->wowsliderrec->id.'_'.$i.'"></iframe>';
                 }
             }
 
             if (empty($linkdata->url)) {
-                $images .= '<li>'.$_video.'<img src="'.$img->url.'" alt="'.@$linkdata->title.'" title="'.@$linkdata->title.'" id="wows'.$this->wowsliderrec->id.'_'.$i.'"/></li>';
+                $images .= '<li>'.$videohtml.'<img src="'.$img->url.'" alt="'.@$linkdata->title.'" title="'.@$linkdata->title.'" id="wows'.$this->wowsliderrec->id.'_'.$i.'"/></li>';
             } else {
-                $images .= '<li><a href="'.$linkdata->url.'">'.$_video.'<img src="'.$img->url.'" alt="'.@$linkdata->title.'" title="'.@$linkdata->title.'" id="wows'.$this->wowsliderrec->id.'_'.$i.'"/></a></li>';
+                $images .= '<li><a href="'.$linkdata->url.'">'.$videohtml.'<img src="'.$img->url.'" alt="'.@$linkdata->title.'" title="'.@$linkdata->title.'" id="wows'.$this->wowsliderrec->id.'_'.$i.'"/></a></li>';
             }
 
             $tooltipsarr[$i] = ''.@$linkdata->tooltip;
@@ -142,14 +148,13 @@ class WowSlider {
 
         $c_bullets = $i;
         $detector = new Mobile_Detect();
-        $sliderbody = '';
         $width = (is_numeric($this->wowsliderrec->width)) ? $this->wowsliderrec->width.'px' : $this->wowsliderrec->width;
 
-        $_width = $this->wowsliderrec->width . 'px';
-        $_height = $this->wowsliderrec->height . 'px';
-        $_style = '<style>';
+        $sliderwidth = $this->wowsliderrec->width . 'px';
+        $sliderheight = $this->wowsliderrec->height . 'px';
+        $sliderstyle = '<style>';
         if (empty($this->wowsliderrec->showstartbutton)) {
-            $_style .= '
+            $sliderstyle .= '
                #wowslider-container .ws_playpause {
                     visibility:hidden !important;
                }
@@ -158,25 +163,29 @@ class WowSlider {
                }
             ';
         }
-        $_style .='    #wowslider-container {
-                max-width: ' . $_width . ';
-                max-height:' . $_height . ';
+        $sliderstyle .='    #wowslider-container {
+                max-width: ' . $sliderwidth . ';
+                max-height:' . $sliderheight . ';
             }
-            * html #wowslider-container{ width:' . $_width . '; }
+            * html #wowslider-container{ width:' . $sliderwidth . '; }
             #wowslider-container .ws_images{
-                max-width: ' . $_width . ';
-                max-height:' . $_height . ';
+                max-width: ' . $sliderwidth . ';
+                max-height:' . $sliderheight . ';
             }
             #wowslider-container .ws_images ul a{
-                 max-height:' . $_height . ';
+                 max-height:' . $sliderheight . ';
             }
-            #wowslider-container .ws_images > div > img {max-height:' . $_height . ';}
+            #wowslider-container .ws_images > div > img {max-height:' . $sliderheight . ';}
         </style>';
 
-        if($scriptyoutube) $sliderbody .= '<script src="https://www.youtube.com/iframe_api"></script>';
-        if($scriptvimeo) $sliderbody .= '<script src="http://a.vimeocdn.com/js/froogaloop2.min.js"></script>';
+        if ($scriptyoutube) {
+            $sliderbody .= '<script src="https://www.youtube.com/iframe_api"></script>';
+        }
+        if ($scriptvimeo) {
+            $sliderbody .= '<script src="http://a.vimeocdn.com/js/froogaloop2.min.js"></script>';
+        }
 
-        $sliderbody .= $_style;
+        $sliderbody .= $sliderstyle;
         if ($detector->isMobile()) {
             $sliderbody .= '<div id="wow-wrapper" style="width:100%;margin:auto">';
             $sliderbody .= '<div id="wowslider-container" style="width:100%">';
@@ -282,7 +291,7 @@ function wowslider_save_draft_file(&$wowslider, $filearea) {
             $filearea = str_replace('fileid', '', $filearea);
             file_save_draft_area_files($filepickeritemid, $context->id, 'mod_wowslider', $filearea, 0);
             if ($savedfiles = $fs->get_area_files($context->id, 'mod_wowslider', $filearea, 0)) {
-                // Prepare and update metadata records
+                // Prepare and update metadata records.
                 if ($filearea == 'wowslides') {
                     $mtdrecords = $DB->get_records('wowslider_slide', array('wowsliderid' => $wowslider->id), 'filename', 'filename,id,url,title,tooltip');
                     foreach ($savedfiles as $afile) {

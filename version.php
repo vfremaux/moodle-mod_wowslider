@@ -25,11 +25,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2016052300;  // The current module version (Date: YYYYMMDDXX).
-$plugin->requires = 2016052300;
+$plugin->version  = 2016052302;  // The current module version (Date: YYYYMMDDXX).
+$plugin->requires = 2017110800;
 $plugin->component = 'mod_wowslider';
-$plugin->release = 'Moodle 3.2.0 (Build 2016052300)';
+$plugin->release = 'Moodle 3.4.0 (Build 2016052302)';
 $plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
-$plugin->codeincrement = '3.2.0001';
+$plugin->codeincrement = '3.4.0001';
