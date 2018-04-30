@@ -17,19 +17,19 @@
 /**
  * Version details.
  *
- * @package mod_wowslider
- * @category mod
- * @author Valery Fremaux (valery.fremaux@gmail.com)
- * @licence http://www.gnu.org/copyleft/gpl.html GNU Public Licence
+ * @author      Valery Fremaux (valery.fremaux@gmail.com)
+ * @licence     http://www.gnu.org/copyleft/gpl.html GNU Public Licence
+ * @package     mod_wowslider
+ * @category    mod
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2015040200;  // The current module version (Date: YYYYMMDDXX)
+$plugin->version  = 2016052302;  // The current module version (Date: YYYYMMDDXX).
 $plugin->requires = 2016052300;
-$plugin->release = "Moodle 3.1.0 (Build 2014081102)";
 $plugin->component = 'mod_wowslider';
+$plugin->release = 'Moodle 3.1.0 (Build 2016052302)';
 $plugin->maturity = MATURITY_STABLE;
 
-// Non Moodle attributes.
+// Non moodle attributes.
 $plugin->codeincrement = '3.1.0001';

@@ -27,8 +27,8 @@ require_once($CFG->dirroot.'/mod/wowslider/lib.php');
 require_once($CFG->dirroot.'/mod/wowslider/locallib.php');
 require_once($CFG->dirroot.'/mod/wowslider/slide_form.php');
 
-$id = optional_param('id', 0, PARAM_INT); // Course Module ID, or
-$w  = optional_param('w', 0, PARAM_INT);  // wowslider ID
+$id = optional_param('id', 0, PARAM_INT); // Course Module ID, or.
+$w  = optional_param('w', 0, PARAM_INT);  // Wowslider ID.
 
 if ($id) {
     if (!$cm = $DB->get_record('course_modules', array('id' => $id))) {
@@ -56,7 +56,7 @@ $context = context_module::instance($cm->id);
 
 $PAGE->set_url($url);
 
-// Security. 
+// Security.
 
 require_login($course, true, $cm);
 require_capability('mod/wowslider:edit', $context);

@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * @author Valery Fremaux (valery.fremaux@gmail.com)
  * @package mod_wowslider
  * @category mod
  * @licence http://www.gnu.org/copyleft/gpl.html GNU Public Licence
  */
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot.'/mod/wowslider/locallib.php');
 
 /**
@@ -41,7 +41,6 @@ function wowslider_set_instance(&$block) {
     $wowslider->require_css();
 
     // Transfer content from title to content.
-    // $block->content->text = $block->title;
     $block->title = format_string($wowslider->name);
 
     $renderer = $PAGE->get_renderer('wowslider');

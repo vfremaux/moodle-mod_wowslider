@@ -25,7 +25,7 @@
 require('../../config.php');
 require_once($CFG->dirroot.'/mod/wowslider/lib.php');
 
-$id = required_param('id', PARAM_INT);   // Course ID.
+$id = required_param('id', PARAM_INT); // Course ID.
 
 if (! $course = $DB->get_record('course', array('id' => $id))) {
     print_error('coursemisconf');
@@ -61,7 +61,8 @@ echo $OUTPUT->header();
 // Get all the appropriate data.
 
 if (! $sliders = get_all_instances_in_course('wowslider', $course)) {
-    echo $OUTPUT->notification(get_string('noslides', 'wowslider'), new moodle_url('/course/view.php', array('id' => $course->id)));
+    $returnurl = new moodle_url('/course/view.php', array('id' => $course->id));
+    echo $OUTPUT->notification(get_string('noslides', 'wowslider'), $returnurl);
     echo $OUTPUT->footer();
     die;
 }
@@ -86,22 +87,23 @@ if ($course->format == 'weeks') {
 
 foreach ($sliders as $slider) {
     $slidername = format_string($slider->name);
+    $sliderurl = new moodle_url('/mod/wowslider/view.php', array('id' => $slider->coursemodule));
     if (!$slider->visible) {
-        //Show dimmed if the mod is hidden
-        $link = "<a class=\"dimmed\" href=\"view.php?id=$slider->coursemodule\">$slidername</a>";
+        // Show dimmed if the mod is hidden.
+        $link = '<a class="dimmed" href="'.$sliderurl.'">'.$slidername.'</a>';
     } else {
-        //Show normal if the mod is visible
-        $link = "<a href=\"view.php?id=$slider->coursemodule\">$slider->name</a>";
+        // Show normal if the mod is visible.
+        $link = '<a href="'.$sliderurl.'">'.$slider->name.'</a>';
     }
 
-    if ($course->format == "weeks" or $course->format == "topics") {
+    if ($course->format == 'weeks' || $course->format == 'topics') {
         $table->data[] = array ($slider->section, $link);
     } else {
         $table->data[] = array ($link);
     }
 }
 
-echo "<br />";
+echo '<br />';
 
 echo html_writer::table($table);
 

@@ -31,7 +31,7 @@ class backup_wowslider_activity_structure_step extends backup_activity_structure
         $wowslider->add_child($views);
         $views->add_child($view);
 
-        // Sources
+        // Sources.
         $wowslider->set_source_table('wowslider', array('id' => backup::VAR_ACTIVITYID));
 
         $slide->set_source_table('wowslider_slide', array('id' => backup::VAR_ACTIVITYID));
@@ -42,7 +42,7 @@ class backup_wowslider_activity_structure_step extends backup_activity_structure
 
         $view->annotate_ids('userid', 'userid');
 
-        // Define file annotations
+        // Define file annotations.
         $wowslider->annotate_files('mod_wowslider', 'intro', null); // This file areas haven't itemid
         $wowslider->annotate_files('mod_wowslider', 'wowslides', null); // This file areas haven't itemid
         $wowslider->annotate_files('mod_wowslider', 'tooltips', null); // This file areas haven't itemid

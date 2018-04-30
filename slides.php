@@ -26,8 +26,8 @@ require_once('../../config.php');
 require_once($CFG->dirroot.'/mod/wowslider/lib.php');
 require_once($CFG->dirroot.'/mod/wowslider/locallib.php');
 
-$id = optional_param('id', 0, PARAM_INT); // Course Module ID, or
-$w  = optional_param('w', 0, PARAM_INT);  // wowslider ID
+$id = optional_param('id', 0, PARAM_INT); // Course Module ID, or.
+$w = optional_param('w', 0, PARAM_INT);  // wowslider ID.
 
 if ($id) {
     if (!$cm = $DB->get_record('course_modules', array('id' => $id))) {
@@ -70,7 +70,7 @@ echo $OUTPUT->heading(get_string('wowslides', 'wowslider'));
 $strfilename = get_string('filename', 'wowslider');
 $strurl = get_string('url', 'wowslider');
 $strtitle = get_string('title', 'wowslider');
-$strurlvideo = get_string('url_video', 'wowslider');
+$strurlvideo = get_string('urlvideo', 'wowslider');
 
 if (!empty($slides)) {
     $table = new html_table();
