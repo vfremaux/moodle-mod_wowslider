@@ -80,7 +80,7 @@ if (!empty($slides)) {
 
     foreach ($slides as $slide) {
         $editurl = new moodle_url('/mod/wowslider/edit_slide.php', array('id' => $cm->id, 'slideid' => $slide->id));
-        $commands = '<a href="'.$editurl.'">'.$OUTPUT->pix_icon('t/edit', get_string('update'), 'core').'</a>';
+        $commands = '<a href="'.$editurl.'"><img src="'.$OUTPUT->pix_url('t/edit').'" /></a>';
         $table->data[] = array($slide->filename, $slide->url, $slide->title, $slide->video, $commands);
     }
 

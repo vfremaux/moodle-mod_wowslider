@@ -27,7 +27,15 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/wowslider/locallib.php');
 
 /**
- * List of features supported in Vodeclic module
+ * This function is not implemented in this plugin, but is needed to mark
+ * the vf documentation custom volume availability.
+ */
+function mod_wowslider_supports_feature() {
+    assert(1);
+}
+
+/**
+ * List of features supported in Wowslider module
  * @param string $feature FEATURE_xx constant for requested feature
  * @return mixed True if module supports feature, false if not, null if doesn't know
  */
@@ -444,7 +452,15 @@ function wowslider_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
         }
     }
 
-    if (!$guests) {
+    $publicaccess = false;
+    if (is_dir($CFG->dirroot.'/course/format/page')) {
+        include_once($CFG->dirroot.'/course/format/page/xlib.php');
+        if (page_module_is_visible($cm, true)) {
+            $publicaccess = true;
+        }
+    }
+
+    if (!$guests && !$publicaccess) {
         if ($cm->instance != $config->localmywowsliderid) {
             require_course_login($course, true, $cm);
         } else {
