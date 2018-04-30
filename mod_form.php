@@ -82,7 +82,7 @@ class mod_wowslider_mod_form extends moodleform_mod {
             'twist' => get_string('twist', 'wowslider'),
         );
         $mform->addElement('select', 'skin', get_string('skin', 'wowslider'), $skinoptions);
-        $mform->setDefault('effect', @$config->defaultskin);
+        $mform->setDefault('skin', @$config->defaultskin);
 
         $mform->addElement('header', 'h1', get_string('behaviour', 'wowslider'));
 

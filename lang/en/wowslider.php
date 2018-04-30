@@ -79,6 +79,13 @@ $string['urlvideo'] = 'Video url';
 $string['width'] = 'Width';
 $string['wowslides'] = 'Slides';
 
+$string['privacy:metadata:wowslider_views'] = 'Information about what, when and how much a user accesses to slides';
+$string['privacy:metadata:wowslider_views:useridid'] = 'The ID of the user';
+$string['privacy:metadata:wowslider_views:wowsliderid'] = 'The ID of the wowslider';
+$string['privacy:metadata:wowslider_views:views'] = 'Number of views';
+$string['privacy:metadata:wowslider_views:timefirstview'] = 'The time the user first accessed to the wowslider';
+$string['privacy:metadata:wowslider_views:timecomplete'] = 'The time the user viewed all slides';
+
 $string['configdefaulteffect_desc'] = 'Effect by default for any newly created wowslider';
 
 $string['configdefaultskin_desc'] = 'Skin by default for any newly created wowslider';
