@@ -70,7 +70,7 @@ echo $OUTPUT->heading(get_string('wowslides', 'wowslider'));
 $strfilename = get_string('filename', 'wowslider');
 $strurl = get_string('url', 'wowslider');
 $strtitle = get_string('title', 'wowslider');
-$strurlvideo = get_string('url_video', 'wowslider');
+$strurlvideo = get_string('urlvideo', 'wowslider');
 
 if (!empty($slides)) {
     $table = new html_table();

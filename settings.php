@@ -21,7 +21,7 @@
  *
  * @package    mod
  * @subpackage wowslider
- * @copyright  2009 David Mudrak <david.mudrak@gmail.com>
+ * @copyright  2009 Valery Fremaux (http://www.mylearningfactory.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,6 +34,55 @@ if ($ADMIN->fulltree) {
                           '100' => '100 '.get_string('slides', 'wowslider'),
                           '200' => '200 '.get_string('slides', 'wowslider')
                           );
-    $settings->add(new admin_setting_configselect('wowslider/maxallowedfiles', get_string('maxallowedfiles', 'wowslider'),
-                        get_string('configmaxallowedfiles', 'wowslider'), 100, $maxfilesopts));
+    $key = 'wowslider/maxallowedfiles';
+    $label = get_string('configmaxallowedfiles', 'wowslider');
+    $desc = get_string('configmaxallowedfiles_desc', 'wowslider');
+    $default = 100;
+    $settings->add(new admin_setting_configselect($key, $label, $desc, $default, $maxfilesopts));
+
+    $skinoptions = array(
+        0 => get_string('default', 'wowslider'),
+        'glass' => get_string('glass', 'wowslider'),
+        'transparent' => get_string('transparent', 'wowslider'),
+        'gentle' => get_string('gentle', 'wowslider'),
+        'twist' => get_string('twist', 'wowslider'),
+    );
+    $key = 'wowslider/defaultskin';
+    $label = get_string('configdefaultskin', 'wowslider');
+    $desc = get_string('configdefaultskin_desc', 'wowslider');
+    $default = 0;
+    $settings->add(new admin_setting_configselect($key, $label, $desc, $default, $skinoptions));
+
+    $effectoptions = array(
+        0 => get_string('noeffect', 'wowslider'),
+        'glassparallax' => get_string('glassparallax', 'wowslider'),
+        'cube' => get_string('cube', 'wowslider'),
+        'blur' => get_string('blur', 'wowslider'),
+        'rotate' => get_string('rotate', 'wowslider'),
+    );
+    $key = 'wowslider/defaulteffect';
+    $label = get_string('configdefaulteffect', 'wowslider');
+    $desc = get_string('configdefaulteffect_desc', 'wowslider');
+    $default = 0;
+    $settings->add(new admin_setting_configselect($key, $label, $desc, $default, $effectoptions));
+
+    $sql = "
+        SELECT
+            w.id,
+            CONCAT('[', c.shortname, '] ', w.name) as name
+        FROM
+            {wowslider} w,
+            {course} c
+        WHERE
+            c.id = w.course
+        ORDER BY
+           name
+     ";
+    $instancesoptions = $DB->get_records_sql_menu($sql, array());
+    if (!empty($instancesoptions)) {
+        $key = 'wowslider/localmywowsliderid';
+        $label = get_string('configlocalmywowsliderid', 'wowslider');
+        $desc = get_string('configlocalmywowsliderid_desc', 'wowslider');
+        $settings->add(new admin_setting_configselect($key, $label, $desc, 0, $instancesoptions));
+    }
 }
