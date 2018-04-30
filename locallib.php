@@ -83,6 +83,8 @@ class WowSlider {
         return $loadedimages;
     }
 
+    /*
+    * Deferred to renderer.
     function print_body() {
         global $CFG, $DB;
 
@@ -215,6 +217,7 @@ class WowSlider {
 
         return $sliderbody;
     }
+    */
 
     /**
      * Ensures js material for wowsliders is loaded
