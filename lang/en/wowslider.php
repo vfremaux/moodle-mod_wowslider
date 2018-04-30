@@ -1,4 +1,18 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 $string['wowslider:addinstance'] = 'Can add an instance of a WOW Slider';
 $string['wowslider:edit'] = 'Can edit slides data in WOW Slider';
@@ -12,6 +26,12 @@ $string['behaviour'] = 'Behaviour';
 $string['blur'] = 'Blur';
 $string['bullets'] = 'Bullets';
 $string['caption'] = 'Captions';
+$string['completed'] = 'All slides have been viewed';
+$string['completionmediaviewed'] = 'marked when student has viewed once all slides in a single view session';
+$string['configdefaulteffect'] = 'Default effect';
+$string['configdefaultskin'] = 'Default skin';
+$string['configmaxallowedfiles'] = 'Max slides';
+$string['configlocalmywowsliderid'] = 'My page wowslider';
 $string['controls'] = 'Controls';
 $string['cube'] = 'Cube';
 $string['default'] = 'Default';
@@ -27,40 +47,46 @@ $string['glass'] = 'Glass';
 $string['glassparallax'] = 'Glass Parallax';
 $string['height'] = 'Height';
 $string['images'] = 'Images';
-$string['localmyheatmaprangedesc'] = 'You can choose one of the course sliders to be viewed as embed on enhanced My page. Course and slider module must be visible for the slider to be printed. slider will be shown independantely of the enrolement por course access status ';
+$string['intro'] = 'Description';
 $string['localmywowsliderid'] = 'WowSlider for My view';
+$string['lockdragslides'] = 'Lock slide dragging control';
 $string['loop'] = 'Loop';
-$string['maxallowedfiles'] = 'Max slides';
-$string['configmaxallowedfiles'] = 'Max number of uploadable slides per instance';
+$string['mediaviewed'] = 'Viewing all media';
 $string['modulename'] = 'Wow Slider';
 $string['modulenameplural'] = 'Wow Sliders';
 $string['noanimation'] = 'No animation';
 $string['noeffect'] = 'No effect';
 $string['noslider'] = 'No slider selected';
 $string['noslides'] = 'No slides in the slider';
+$string['notificationslide'] = 'Notification slide show';
+$string['notificationslidemessage'] = 'All slides have been viewed';
 $string['pluginadministration'] = 'Administration of the Wow Slider';
 $string['pluginname'] = 'Wow Slider';
-$string['pluginname'] = 'Wow Slider';
 $string['rotate'] = 'Rotate';
-$string['skin'] = 'Skin';
-$string['slides'] = 'slides max';
-$string['slidedata'] = 'Slide data';
-$string['stoponhover'] = 'Stop on Hover';
 $string['showstartbutton'] = 'Show start/pause button';
-$string['lockdragslides'] = 'Lock slide dragging control';
+$string['skin'] = 'Skin';
+$string['slidedata'] = 'Slide data';
+$string['slides'] = 'slides max';
+$string['stoponhover'] = 'Stop on Hover';
 $string['title'] = 'Title';
 $string['tooltip'] = 'Tooltip';
 $string['tooltips'] = 'Tooltips';
 $string['transparent'] = 'Transparent';
 $string['twist'] = 'Twist';
+$string['unlimited'] = 'Unlimited';
 $string['url'] = 'Url';
+$string['urlvideo'] = 'Video url';
 $string['width'] = 'Width';
 $string['wowslides'] = 'Slides';
-$string['intro'] = 'Description';
-$string['urlvideo'] = 'Video url';
-$string['unlimited'] = 'Unlimited';
-$string['notificationslide'] = 'Notification slide show';
-$string['notificationslidemessage'] = 'All slides have been viewed';
-$string['mediaviewed'] = 'Viewing all media';
-$string['completionmediaviewed'] = 'marked when student has viewed once all slides in a single view session';
-$string['completed'] = 'All slides have been viewed';
+
+$string['configdefaulteffect_desc'] = 'Effect by default for any newly created wowslider';
+
+$string['configdefaultskin_desc'] = 'Skin by default for any newly created wowslider';
+
+$string['configmaxallowedfiles_desc'] = 'Max number of uploadable slides per instance';
+
+$string['configlocalmywowsliderid_desc'] = 'You can choose one of the course sliders to be viewed as embed on enhanced My page.
+Course and slider module must be visible for the slider to be printed. slider will be shown independantely of the enrolement por
+course access status ';
+
+$string['modulename_help'] = 'Put a nice and dynamic slider in your course content. Students can be asked to view once all views.';

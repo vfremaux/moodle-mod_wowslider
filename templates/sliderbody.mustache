@@ -1,0 +1,83 @@
+{{!
+    This file is part of The Course Module Navigation Block
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod-wowslider/sliderbody
+
+    Classes required for JS:
+    * none
+
+}}
+{{#scriptyoutube}}
+<script src="https://www.youtube.com/iframe_api"></script>
+{{/scriptyoutube}}
+{{#scriptvimeo}}
+<script src="http://a.vimeocdn.com/js/froogaloop2.min.js"></script>
+{{/scriptvimeo}}
+
+{{{sliderstyle}}}
+
+{{#ismobile}}
+<div id="wow-wrapper" style="width:100%;margin:auto">
+    <div id="wowslider-container" style="width:100%">
+        <div class="ws_images">
+            <ul>
+{{/ismobile}}
+{{^ismobile}}
+<div id="wow-wrapper" style="width:{{width}};margin:auto">
+    <div id="wowslider-container">
+        <div class="ws_images" style="height:{{height}}px">
+            <ul>
+{{/ismobile}}
+
+{{#images}}
+                <li>
+                {{#targeturl}}
+                <a href="{{linkurl}}" target="{{targettarget}}">
+                {{/targeturl}}
+                {{#youtubeembed}}
+                <iframe width="100%" height="100%" src="{{youtubeembed}}?autoplay={{autoplayvideo}}&rel=0&enablejsapi=1&playerapiid=ytplayer&wmode=transparent" frameborder="0"></iframe>
+                {{/youtubeembed}}
+                {{#vimeoembed}}
+                <iframe width="100%" height="100%" src="{{vimeoembed}}?autoplay={{autoplayvideo}}&title=0&byline=0&badge=0&portrait=0&api=1&player_id="wows{{sliderid}}_{{ix}}" id="wows{{sliderid}}_{{ix}}"></iframe>
+                {{/vimeoembed}}
+                <img src="{{url}}" alt="{{title}}" title="{{title}}" id="wows{{sliderid}}_{{ix}}"/></li>
+                {{#targeturl}}
+                </a>
+                {{/targeturl}}
+                </li>
+{{/images}}
+            </ul>
+        </div>
+        <div class="ws_bullets" data-id="{{bulletsid}}"><div>
+
+{{#tooltips}}
+            <a href="#" title="{{title}}" class="j_bullets" data-id="{{ix}}">
+            {{#bullets}}
+            <img width="90" src="{{src}}" alt="{{title}}"/>
+            {{/bullets}}
+            {{ix}}</a>
+{{/tooltips}}
+        </div>
+    </div>
+    <div class="ws_shadow"></div>
+</div>
+
+{{#notificationslide}}
+    <div class="notif_slide"></div>
+{{/notificationslide}}
+
+</div>
