@@ -110,7 +110,7 @@ if ($course->format == 'page') {
     if ($COURSE->format != 'singleactivity') {
         echo '<div style="text-align:center;margin:8px">';
         $buttonurl = new moodle_url('/course/view.php', array('id' => $course->id));
-        echo $OUTPUT->single_button($buttonurl, get_string('backtocourse', 'tracker'), 'post', array('class' => 'backtocourse'));
+        echo $OUTPUT->single_button($buttonurl, get_string('backtocourse', 'wowslider'), 'post', array('class' => 'backtocourse'));
         echo '</div>';
     }
 }
