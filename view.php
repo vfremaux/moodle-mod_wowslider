@@ -85,7 +85,6 @@ $PAGE->set_heading('');
 $PAGE->navbar->add(get_string('modulename', 'wowslider').': '.$wowslider->name);
 $PAGE->set_focuscontrol('');
 $PAGE->set_cacheable(true);
-$PAGE->set_button(update_module_button($cm->id, $course->id, $strwowslider));
 
 $completion = new completion_info($course);
 $completion->set_module_viewed($cm);

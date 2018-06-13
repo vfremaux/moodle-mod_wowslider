@@ -30,7 +30,7 @@ class provider implements \core_privacy\local\metadata\provider {
             'timecomplete' => 'privacy:metadata:wowslider_views:timecomplete',
         ];
 
-        $collection->add_database_table('block_teams', $fields, 'privacy:metadata:wowslider_views');
+        $collection->add_database_table('wowslider_slide_view', $fields, 'privacy:metadata:wowslider_views');
 
         return $collection;
     }
