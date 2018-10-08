@@ -16,6 +16,9 @@
 
 namespace mod_wowslider\privacy;
 
+use \core_privacy\local\request\writer;
+use \core_privacy\local\metadata\collection;
+
 defined('MOODLE_INTERNAL') || die();
 
 class provider implements \core_privacy\local\metadata\provider {
