@@ -34,7 +34,7 @@ class mod_wowslider_renderer extends plugin_renderer_base {
         $template = new StdClass;
 
         $i = 0;
-        $template->images = '';
+        $template->images = array();
 
         $template->scriptvimeo = false;
         $template->scriptyoutube = false;

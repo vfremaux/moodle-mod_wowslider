@@ -1,4 +1,4 @@
-﻿/// <reference path="jquery.js" />
+/// <reference path="jquery.js" />
 /*
 jquery-watcher 
 Version 1.13 - 11/17/2014
