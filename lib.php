@@ -404,7 +404,7 @@ function wowslider_get_participants($wowsliderid) {
  * @return mixed
  * @todo Finish documenting this function
  **/
-function wowslider_scale_used($wowsliderid,$scaleid) {
+function wowslider_scale_used($wowsliderid, $scaleid) {
     $return = false;
 
     return $return;
