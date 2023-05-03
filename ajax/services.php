@@ -20,7 +20,6 @@
  * @category mod
  * @licence http://www.gnu.org/copyleft/gpl.html GNU Public Licence
  */
-defined('MOODLE_INTERNAL') || die();
 
 require('../../../config.php');
 require_once($CFG->dirroot.'/mod/wowslider/lib.php');

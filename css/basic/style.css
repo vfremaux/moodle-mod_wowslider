@@ -522,10 +522,10 @@ _:-ms-input-placeholder, :root #wowslider-container .ws_playpause:after {line-he
     opacity: 1;
 }
 
-#wowslider-container .ws-title div,#wowslider-container .ws-title span{
+#wowslider-container .ws-title div,#wowslider-container .ws-title span {
     display:inline-block;
     padding: 0.5em;
-    text-transform: uppercase;    
+    text-transform: uppercase;
 }
 
 
@@ -543,7 +543,7 @@ _:-ms-input-placeholder, :root #wowslider-container .ws_playpause:after {line-he
     border-radius: 0.8em;
 }
 
-#wowslider-container .ws-title span{
+#wowslider-container .ws-title span {
     font-size: 1.8em;
     -webkit-border-radius: 0.8em;
     -moz-border-radius: 0.8em;
@@ -566,7 +566,7 @@ _:-ms-input-placeholder, :root #wowslider-container .ws_playpause:after {line-he
     display:block
 }
 
-#wowslider-container .ws_images > ul{
+#wowslider-container .ws_images > ul {
     animation: wsBasic 4s infinite;
     -moz-animation: wsBasic 4s infinite;
     -webkit-animation: wsBasic 4s infinite;
@@ -576,7 +576,7 @@ _:-ms-input-placeholder, :root #wowslider-container .ws_playpause:after {line-he
 @-moz-keyframes wsBasic{0%{left:-0%} 50%{left:-0%} }
 @-webkit-keyframes wsBasic{0%{left:-0%} 50%{left:-0%} }
 
-#wowslider-container .ws_bullets  a img{
+#wowslider-container .ws_bullets  a img {
     text-indent:0;
     display:block;
     bottom:15px;
@@ -587,12 +587,12 @@ _:-ms-input-placeholder, :root #wowslider-container .ws_playpause:after {line-he
     max-width:none;
 }
 
-#wowslider-container .ws_bullets a:hover img{
+#wowslider-container .ws_bullets a:hover img {
     visibility:visible;
 }
 
 
-#wowslider-container .ws_bulframe div div{
+#wowslider-container .ws_bulframe div div {
     height:48px;
     overflow:visible;
     position:relative;
@@ -606,7 +606,7 @@ _:-ms-input-placeholder, :root #wowslider-container .ws_playpause:after {line-he
     background-color:#FFFFFF;
 }
 
-#wowslider-container  .ws_bullets .ws_bulframe{
+#wowslider-container  .ws_bullets .ws_bulframe {
     display:none;
     bottom:25px;
     margin-left:4px;
@@ -619,11 +619,11 @@ _:-ms-input-placeholder, :root #wowslider-container .ws_playpause:after {line-he
     max-height: 80px !important;
 }
 
-#wowslider-container .ws_bulframe div div{
+#wowslider-container .ws_bulframe div div {
     height: auto;
 }
 
-@media all and (max-width:400px){
+@media all and (max-width:400px) {
     #wowslider-container .ws_controls,
     #wowslider-container .ws_bullets,
     #wowslider-container .ws_thumbs{
