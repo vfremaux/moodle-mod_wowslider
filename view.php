@@ -80,6 +80,7 @@ $event->trigger();
 
 $strwowsliders = get_string('modulenameplural', 'wowslider');
 $strwowslider  = get_string('modulename', 'wowslider');
+$PAGE->set_cm($cm);
 $PAGE->set_title(format_string($wowslider->name));
 $PAGE->set_heading('');
 $PAGE->navbar->add(get_string('modulename', 'wowslider').': '.$wowslider->name);
